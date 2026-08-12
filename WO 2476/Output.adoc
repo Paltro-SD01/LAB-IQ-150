@@ -1,0 +1,487 @@
+= My Document
+Jeanne Dupont; Alain Dupond
+:toc: 
+:imagesdir: images
+:sectnums: 
+:toclevels: 3
+
+== Examples
+
+=== Paragraphs
+
+Paragraphs don't require any special markup in AsciiDoc. A paragraph is just one or more lines of consecutive text.
+
+[NOTE]
+====
+An admonition paragraph draws the reader's attention to auxiliary information.Its purpose is determined by the labelat the beginning of the paragraph.
+====
+
+=== Formated text
+
+Bold word *Bold* +
+Italic word _Italic_ +
+~a~b^c^
+
+== Images
+
+.Powerd by LabVIEW
+image::PowerdByLV.png[Powerd by LabVIEW]
+
+== Diagrams
+
+[vega, target=XYZ, format="svg", align="center"]
+....
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "description": "A radar chart example, showing multiple dimensions in a radial layout.",
+  "width": 400,
+  "height": 400,
+  "padding": 40,
+  "autosize": {"type": "none", "contains": "padding"},
+
+  "signals": [
+    {"name": "radius", "update": "width / 2"}
+  ],
+
+  "data": [
+    {
+      "name": "table",
+      "values": [{"key":"A","value":10,"category":"UUT1"},{"key":"A","value":40,"category":"UUT2"},{"key":"A","value":70,"category":"UUT3"},{"key":"A","value":100,"category":"UUT4"},{"key":"B","value":20,"category":"UUT1"},{"key":"B","value":50,"category":"UUT2"},{"key":"B","value":80,"category":"UUT3"},{"key":"B","value":50,"category":"UUT4"},{"key":"C","value":30,"category":"UUT1"},{"key":"C","value":60,"category":"UUT2"},{"key":"C","value":90,"category":"UUT3"},{"key":"C","value":100,"category":"UUT4"}]
+    },
+    {
+      "name": "keys",
+      "source": "table",
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": ["key"]
+        }
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "angular",
+      "type": "point",
+      "range": {"signal": "[-PI, PI]"},
+      "padding": 0.5,
+      "domain": {"data": "table", "field": "key"}
+    },
+    {
+      "name": "radial",
+      "type": "linear",
+      "range": {"signal": "[0, radius]"},
+      "zero": true,
+      "nice": false,
+      "domain": {"data": "table", "field": "value"},
+      "domainMin": 0.000000,
+      "domainMax": 120.000000
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {"data": "table", "field": "category"},
+      "range": {"scheme": "set1"}
+    }
+  ],
+
+  "encode": {
+    "enter": {
+      "x": {"signal": "radius"},
+      "y": {"signal": "radius"}
+    }
+  },
+
+  "legends": [
+    {
+      "fill": "color",
+      "orient": "none",
+      "title": "Legend",
+      "encode": {
+        "legend": {"update": {"x": {"value": -200}, "y": {"value": -200}}}
+      }
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "group",
+      "name": "categories",
+      "zindex": 1,
+      "from": {
+        "facet": {"data": "table", "name": "facet", "groupby": ["category"]}
+      },
+      "marks": [
+        {
+          "type": "line",
+          "name": "category-line",
+          "from": {"data": "facet"},
+          "encode": {
+            "enter": {
+              "interpolate": {"value": "linear-closed"},
+              "x": {"signal": "scale('radial', datum.value) * cos(scale('angular', datum.key))"},
+              "y": {"signal": "scale('radial', datum.value) * sin(scale('angular', datum.key))"},
+              "stroke": {"scale": "color", "field": "category"},
+              "strokeWidth": {"value": 1},
+              "fill": {"scale": "color", "field": "category"},
+              "fillOpacity": {"value": 0.1}
+            }
+          }
+        },
+        {
+          "type": "text",
+          "name": "value-text",
+          "from": {"data": "category-line"},
+          "encode": {
+            "enter": {
+              "x": {"signal": "datum.x"},
+              "y": {"signal": "datum.y"},
+              "text": {"signal": "datum.datum.value"},
+              "align": {"value": "center"},
+              "baseline": {"value": "middle"},
+              "fill": {"value": "black"}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "rule",
+      "name": "radial-grid",
+      "from": {"data": "keys"},
+      "zindex": 0,
+      "encode": {
+        "enter": {
+          "x": {"value": 0},
+          "y": {"value": 0},
+          "x2": {"signal": "radius * cos(scale('angular', datum.key))"},
+          "y2": {"signal": "radius * sin(scale('angular', datum.key))"},
+          "stroke": {"value": "lightgray"},
+          "strokeWidth": {"value": 1}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "name": "key-label",
+      "from": {"data": "keys"},
+      "zindex": 1,
+      "encode": {
+        "enter": {
+          "x": {"signal": "(radius + 5) * cos(scale('angular', datum.key))"},
+          "y": {"signal": "(radius + 5) * sin(scale('angular', datum.key))"},
+          "text": {"field": "key"},
+          "align": [
+            {
+              "test": "abs(scale('angular', datum.key)) > PI / 2",
+              "value": "right"
+            },
+            {
+              "value": "left"
+            }
+          ],
+          "baseline": [
+            {
+              "test": "scale('angular', datum.key) > 0", "value": "top"
+            },
+            {
+              "test": "scale('angular', datum.key) == 0", "value": "middle"
+            },
+            {
+              "value": "bottom"
+            }
+          ],
+          "fill": {"value": "black"},
+          "fontWeight": {"value": "bold"}
+        }
+      }
+    },
+    {
+      "type": "line",
+      "name": "outer-line",
+      "from": {"data": "radial-grid"},
+      "encode": {
+        "enter": {
+          "interpolate": {"value": "linear-closed"},
+          "x": {"field": "x2"},
+          "y": {"field": "y2"},
+          "stroke": {"value": "lightgray"},
+          "strokeWidth": {"value": 1}
+        }
+      }
+    }
+  ]
+}
+....
+
+[vega, format="svg", align="center"]
+....
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "description": "A basic line chart example.",
+  "width": 500,
+  "height": 200,
+  "padding": 5,
+
+   "data": [
+    {
+      "name": "table",
+      "values": [{"x":0,"y":10,"c":"Plot 1"},{"x":1,"y":24,"c":"Plot 1"},{"x":2,"y":23,"c":"Plot 1"},{"x":3,"y":11,"c":"Plot 1"},{"x":4,"y":2,"c":"Plot 1"},{"x":5,"y":4,"c":"Plot 1"},{"x":6,"y":18,"c":"Plot 1"},{"x":7,"y":26,"c":"Plot 1"},{"x":8,"y":38,"c":"Plot 1"},{"x":9,"y":45,"c":"Plot 1"},{"x":10,"y":45,"c":"Plot 1"},{"x":0,"y":45,"c":"Plot 2"},{"x":1,"y":25,"c":"Plot 2"},{"x":2,"y":12,"c":"Plot 2"},{"x":3,"y":4,"c":"Plot 2"},{"x":4,"y":3,"c":"Plot 2"},{"x":5,"y":6,"c":"Plot 2"},{"x":6,"y":9,"c":"Plot 2"},{"x":7,"y":4,"c":"Plot 2"},{"x":8,"y":1,"c":"Plot 2"},{"x":9,"y":-1,"c":"Plot 2"},{"x":10,"y":0,"c":"Plot 2"},{"x":0,"y":99,"c":"Plot 3"},{"x":1,"y":98,"c":"Plot 3"},{"x":2,"y":97,"c":"Plot 3"},{"x":3,"y":96,"c":"Plot 3"},{"x":4,"y":95,"c":"Plot 3"},{"x":5,"y":94,"c":"Plot 3"},{"x":6,"y":93,"c":"Plot 3"},{"x":7,"y":92,"c":"Plot 3"},{"x":8,"y":91,"c":"Plot 3"},{"x":9,"y":90,"c":"Plot 3"},{"x":10,"y":89,"c":"Plot 3"}]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "x",
+      "type": "point",
+      "range": "width",
+      "domain": {"data": "table", "field": "x"}
+    },
+    {
+      "name": "y",
+      "type": "linear",
+      "range": "height",
+      "nice": true,
+      "zero": true,
+      "domain": {"data": "table", "field": "y"}
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {"data": "table", "field": "c"},
+      "range": {"scheme": "set2"}
+    }
+  ],
+
+  "axes": [
+    {"orient": "bottom", "scale": "x","title": "X"},
+    {"orient": "left", "scale": "y","title": "Y"}
+  ],
+
+  "legends": [
+    {
+      "fill": "color",
+      "orient": "none",
+      "title": "Legend",
+      "encode": {
+        "legend": {"update": {"x": {"value": 520}, "y": {"value": 0}}}
+      }
+    }
+  ],
+
+
+  "marks": [
+    {
+      "type": "group",
+      "from": {
+        "facet": {
+          "name": "series",
+          "data": "table",
+          "groupby": "c"
+        }
+      },
+      "marks": [
+        {
+          "type": "line",
+          "from": {"data": "series"},
+          "encode": {
+            "enter": {
+              "interpolate": {"value": "natural"},
+              "x": {"scale": "x", "field": "x"},
+              "y": {"scale": "y", "field": "y"},
+              "stroke": {"scale": "color", "field": "c"},
+              "strokeWidth": {"value": 2}           
+            }            
+          }
+        }
+      ]
+    }
+  ]
+}
+
+....
+
+[vega, format="svg", align="center"]
+....
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "description": "A basic grouped bar chart example.",
+  "width": 700,
+  "height": 400,
+  "padding": 5,
+
+  "data": [
+    {
+      "name": "table",
+      "values":[{"category":"UUT1","position":"A","value":10},{"category":"UUT2","position":"A","value":40},{"category":"UUT3","position":"A","value":70},{"category":"UUT4","position":"A","value":100},{"category":"UUT1","position":"B","value":20},{"category":"UUT2","position":"B","value":50},{"category":"UUT3","position":"B","value":80},{"category":"UUT4","position":"B","value":50},{"category":"UUT1","position":"C","value":30},{"category":"UUT2","position":"C","value":60},{"category":"UUT3","position":"C","value":90},{"category":"UUT4","position":"C","value":100}]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "yscale",
+      "type": "band",
+      "domain": {"data": "table", "field": "category"},
+      "range": "height",
+      "padding": 0.2
+    },
+    {
+      "name": "xscale",
+      "type": "linear",
+      "domain": {"data": "table", "field": "value"},
+      "range": "width",
+      "round": true,
+      "zero": true,
+      "nice": true
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {"data": "table", "field": "position"},
+      "range": {"scheme": "set3"}
+    }
+  ],
+
+  "axes": [
+    {"orient": "left", "scale": "yscale", "tickSize": 0, "labelPadding": 4, "zindex": 1},
+    {"orient": "bottom", "scale": "xscale","title": "X"}
+  ],
+
+"legends": [
+    {
+      "fill": "color",
+      "orient": "none",
+      "title": "Legend",
+      "encode": {
+        "legend": {"update": {"x": {"value": 700}, "y": {"value": 0}}}
+      }
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "group",
+
+      "from": {
+        "facet": {
+          "data": "table",
+          "name": "facet",
+          "groupby": "category"
+        }
+      },
+
+      "encode": {
+        "enter": {
+          "y": {"scale": "yscale", "field": "category"}
+        }
+      },
+
+      "signals": [
+        {"name": "height", "update": "bandwidth('yscale')"}
+      ],
+
+      "scales": [
+        {
+          "name": "pos",
+          "type": "band",
+          "range": "height",
+          "domain": {"data": "facet", "field": "position"}
+        }
+      ],
+
+      "marks": [
+        {
+          "name": "bars",
+          "from": {"data": "facet"},
+          "type": "rect",
+          "encode": {
+            "enter": {
+              "y": {"scale": "pos", "field": "position"},
+              "height": {"scale": "pos", "band": 1},
+              "x": {"scale": "xscale", "field": "value"},
+              "x2": {"scale": "xscale", "value": 0},
+              "fill": {"scale": "color", "field": "position"}
+            }
+          }
+        },
+        {
+          "type": "text",
+          "from": {"data": "bars"},
+          "encode": {
+            "enter": {
+              "x": {"field": "x2", "offset": -5},
+              "y": {"field": "y", "offset": {"field": "height", "mult": 0.5}},
+              "fill": [
+                {"test": "contrast('white', datum.fill) > contrast('black', datum.fill)", "value": "white"},
+                {"value": "black"}
+              ],
+              "align": {"value": "right"},
+              "baseline": {"value": "middle"},
+              "text": {"field": "datum.value"}
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+
+....
+
+== Tables
+
+.A simple string table
+[cols="", %autowidth, frame=all, grid=all, stripes=none]
+|===
+|Name of Column 1 |Name of Column 2 |Name of Column 3
+
+|Cell in column 1, row 1
+|Cell in column 2, row 1
+|Cell in column 3, row 1
+
+|Cell in column 1, row 2
+|Cell in column 2, row 2
+|Cell in column 3, row 2
+|===
+
+.An advanced table
+[cols="", %autowidth, frame=all, grid=all, stripes=none]
+|===
+|Name of Column 1 |Name of Column 2 |
+
+a|image::PowerdByLV.png[]
+a|[NOTE]
+====
+You can add any kind of bloc in a cell
+====
+a|[IMPORTANT]
+====
+You can nest one and only one table in a table
+====
+
+a|[TIP]
+====
+You can also merge cells as you can see ->
+====
+2+a|[cols="", %autowidth, frame=all, grid=all, stripes=none]
+!===
+!nested !table !example
+
+!A1
+!B1
+!C1
+
+!A2
+!B2
+!C2
+
+!A3
+!B3
+!C3
+
+!A4
+!B4
+!C4
+!===
+|===
