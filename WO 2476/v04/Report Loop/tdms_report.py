@@ -135,34 +135,43 @@ CHANNEL_LABELS = [
 
 
 # ═══════════════════════════════════════════════════════════════
-#  COLOUR PALETTE
-# ═══════════════════════════════════════════════════════════════
-
+# ─────────────────────────────────────────────────────────────────
+# PALETTE - white background, black text, clean and simple
 C = {
     "page":         "#FFFFFF",
-    "panel":        "#F8FAFC",
+    "panel":        "#FFFFFF",
     "row_even":     "#FFFFFF",
-    "row_odd":      "#F1F5F9",
-    "header_bar":   "#1E3A5F",
-    "cover_accent": "#1E3A5F",
-    "txt_dark":     "#0F172A",
-    "txt_body":     "#334155",
-    "txt_muted":    "#64748B",
-    "txt_light":    "#94A3B8",
+    "row_odd":      "#F5F5F5",
+    "header_bar":   "#FFFFFF",   # pure white header
+    "cover_accent": "#F0F0F0",   # very light gray cover band (almost white)
+    "txt_dark":     "#000000",
+    "txt_body":     "#222222",
+    "txt_muted":    "#555555",
+    "txt_light":    "#888888",
     "txt_white":    "#FFFFFF",
-    "accent_navy":  "#1E3A5F",
-    "accent_blue":  "#2563EB",
-    "accent_teal":  "#0D9488",
-    "accent_sky":   "#BAE6FD",
-    "accent_slate": "#CBD5E1",
-    "border":       "#E2E8F0",
-    "grid":         "#E2E8F0",
-    "spine":        "#CBD5E1",
+    "hdr_text":     "#000000",   # black title text
+    "hdr_sub":      "#444444",   # dark gray secondary text
+    "accent_navy":  "#111111",   # near-black for table headers
+    "accent_blue":  "#2255AA",   # standard link blue (hyperlinks only)
+    "accent_teal":  "#CCCCCC",   # light gray stripe
+    "accent_sky":   "#888888",
+    "accent_slate": "#CCCCCC",
+    "border":       "#CCCCCC",
+    "grid":         "#EEEEEE",
+    "spine":        "#CCCCCC",
 }
 
 LINE_COLORS = [
-    "#2563EB", "#0D9488", "#D97706", "#7C3AED", "#DC2626",
-    "#0891B2", "#059669", "#B45309", "#4338CA", "#BE185D",
+    "#1155AA",
+    "#117755",
+    "#AA6600",
+    "#662288",
+    "#AA1111",
+    "#005577",
+    "#226644",
+    "#774400",
+    "#334488",
+    "#882244",
 ]
 
 
@@ -186,16 +195,93 @@ def load_tdms(filepath: str) -> dict:
 
 
 def best_match(label: str, available: list):
-    """Fuzzy channel name matcher (strips spaces, brackets, case)."""
+    """
+    Robust channel name matcher with scored priority:
+      1. Exact match (after normalisation)
+      2. All words of label found inside channel name
+      3. All words of channel name found inside label
+      4. Majority (>=70%) of label words found in channel name
+    Returns the best-scoring available key, or None.
+    """
     def norm(s):
-        return (s.lower().replace(" ", "").replace("(", "")
-                .replace(")", "").replace("/", ""))
-    ln = norm(label)
+        import re
+        s = s.lower()
+        s = re.sub(r"[()/_\-]", " ", s)
+        s = re.sub(r"\s+", " ", s).strip()
+        return s
+
+    def words(s):
+        return [w for w in norm(s).split() if len(w) >= 2]
+
+    ln     = norm(label)
+    lwords = words(label)
+
+    best_key   = None
+    best_score = -1
+
     for avail in available:
-        ch = avail.split(" / ")[-1] if " / " in avail else avail
-        if ln in norm(ch) or norm(ch) in ln:
-            return avail
-    return None
+        ch_name = avail.split(" / ")[-1] if " / " in avail else avail
+        cn      = norm(ch_name)
+        cwords  = words(ch_name)
+        score   = 0
+
+        if ln == cn:
+            score = 100
+        elif lwords and all(w in cn for w in lwords):
+            score = 80
+        elif cwords and all(w in ln for w in cwords):
+            score = 60
+        elif lwords:
+            matches = sum(1 for w in lwords if w in cn)
+            ratio   = matches / len(lwords)
+            if ratio >= 0.70:
+                score = int(40 * ratio)
+
+        if score > best_score:
+            best_score = score
+            best_key   = avail
+
+    return best_key if best_score >= 40 else None
+
+
+def resolve_y_labels(y_labels: list, raw_data: dict,
+                     known_channels: list = None) -> list:
+    """
+    Match each y_label to an actual TDMS data key.
+
+    Strategy:
+      - If known_channels is provided (sent from LabVIEW), first find the
+        best canonical name from that list, then look it up in raw_data.
+        This gives EXACT matching when LabVIEW sends the real channel names.
+      - Otherwise fall back to direct fuzzy match against raw_data keys.
+
+    Returns list of (display_label, numpy_array) tuples.
+    """
+    avail  = list(raw_data.keys())
+    result = []
+
+    for y_lbl in y_labels:
+        resolved_key = None
+
+        if known_channels:
+            # Step 1: match label to canonical channel name from known list
+            canonical = best_match(y_lbl, known_channels)
+            if canonical:
+                # Step 2: find that canonical name inside raw_data
+                resolved_key = best_match(canonical, avail)
+
+        if not resolved_key:
+            # Fallback: direct fuzzy match against TDMS keys
+            resolved_key = best_match(y_lbl, avail)
+
+        if resolved_key:
+            result.append((y_lbl, raw_data[resolved_key]))
+            print(f"    [OK] '{y_lbl}' -> '{resolved_key}'")
+        else:
+            print(f"    [!!] '{y_lbl}' -> NOT FOUND")
+
+    return result
+
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -301,10 +387,10 @@ def _draw_logo(fig, rect: list, img_path: str):
 #  PAGE CHROME  (header + stripe + footer — every page)
 # ═══════════════════════════════════════════════════════════════
 
-_LOGO_W = 0.090    # 9% figure-width reserved per logo badge
+_LOGO_W = 0.105    # 10.5 % of figure width per logo badge
 _HDR_Y  = 0.945
 _HDR_H  = 0.055
-_STR_H  = 0.008
+_STR_H  = 0.005    # thin accent stripe
 
 def _draw_chrome(fig, page_num: int, total_pages: int,
                  tdms_name: str, section: str = ""):
@@ -312,65 +398,80 @@ def _draw_chrome(fig, page_num: int, total_pages: int,
     has_left  = bool(b["left_logo_path"]  and os.path.isfile(b["left_logo_path"]))
     has_right = bool(b["right_logo_path"] and os.path.isfile(b["right_logo_path"]))
 
-    # Navy header bar
+    # ── Light header bar ──────────────────────────────────────────────
     hdr = fig.add_axes([0, _HDR_Y, 1, _HDR_H])
-    hdr.set_facecolor(C["header_bar"])
+    hdr.set_facecolor(C["header_bar"])   # light cool-gray
     hdr.axis("off")
 
-    txt_l = _LOGO_W + 0.008 if has_left  else 0.012
-    txt_r = 1 - _LOGO_W - 0.008 if has_right else 0.988
+    # Subtle bottom border line on header
+    hdr.plot([0, 1], [0, 0], color=C["accent_slate"], lw=0.8,
+             transform=hdr.transAxes, clip_on=False)
 
-    hdr.text(txt_l, 0.50, REPORT_META["title"],
-             va="center", fontsize=8.5, fontweight="bold",
-             color=C["txt_white"], transform=hdr.transAxes)
-    hdr.text(0.50, 0.50, section[:65], va="center", ha="center",
-             fontsize=7.8, color=C["accent_sky"], transform=hdr.transAxes)
-    hdr.text(txt_r, 0.50,
+    # ── Text layout ────────────────────────────────────────────────────
+    # Title: CENTERED horizontally between the two logo zones
+    # Doc/Rev: right-aligned before right logo, small, muted
+    # Section: smaller line below title (only on inner pages)
+    # ──────────────────────────────────────────────────────────────────
+    right_edge = 1 - _LOGO_W - 0.010 if has_right else 0.986
+
+    # Report title — CENTERED between logos
+    hdr.text(0.50, 0.58, REPORT_META["title"],
+             va="center", ha="center", fontsize=9, fontweight="bold",
+             color=C["hdr_text"], transform=hdr.transAxes)
+
+    # Section name — centred, smaller, below title
+    if section:
+        hdr.text(0.50, 0.22, section[:70], va="center", ha="center",
+                 fontsize=7, color=C["hdr_sub"],
+                 transform=hdr.transAxes)
+
+    # Doc no | Revision — right-aligned
+    hdr.text(right_edge, 0.58,
              f"{REPORT_META['doc_no']}  |  {REPORT_META['revision']}",
-             va="center", ha="right", fontsize=7.2,
-             color=C["accent_sky"], transform=hdr.transAxes)
+             va="center", ha="right", fontsize=6.5,
+             color=C["hdr_sub"], transform=hdr.transAxes)
 
+    # ── Logo badges ───────────────────────────────────────────────────
     if has_left:
         _draw_logo(fig,
-                   [0.004, _HDR_Y + 0.004, _LOGO_W - 0.004, _HDR_H - 0.008],
+                   [0.003, _HDR_Y + 0.003, _LOGO_W - 0.003, _HDR_H - 0.006],
                    b["left_logo_path"])
     if has_right:
         _draw_logo(fig,
-                   [1 - _LOGO_W + 0.000, _HDR_Y + 0.004,
-                    _LOGO_W - 0.004, _HDR_H - 0.008],
+                   [1 - _LOGO_W + 0.001, _HDR_Y + 0.003,
+                    _LOGO_W - 0.003, _HDR_H - 0.006],
                    b["right_logo_path"])
 
-    # Teal stripe
+    # ── Thin accent stripe below header ───────────────────────────────
     stripe = fig.add_axes([0, _HDR_Y - _STR_H, 1, _STR_H])
     stripe.set_facecolor(C["accent_teal"])
     stripe.axis("off")
 
-    # Footer
-    ftr = fig.add_axes([0, 0, 1, 0.030])
+    # ── Footer ────────────────────────────────────────────────────────
+    ftr = fig.add_axes([0, 0, 1, 0.028])
     ftr.set_facecolor(C["panel"])
     ftr.axis("off")
-    ftr.plot([0, 1], [0.95, 0.95], color=C["accent_slate"], lw=0.8,
+    ftr.plot([0, 1], [0.96, 0.96], color=C["border"], lw=0.7,
              transform=ftr.transAxes, clip_on=False)
 
     link_text = b["footer_link_text"].strip()
     link_url  = b["footer_link_url"].strip()
     if link_text:
-        t = ftr.text(0.012, 0.40, link_text, va="center", fontsize=6.5,
+        t = ftr.text(0.014, 0.38, link_text, va="center", fontsize=6.5,
                      color=C["accent_blue"], fontweight="bold",
                      transform=ftr.transAxes)
         if link_url:
-            t.set_url(link_url)      # native PDF clickable annotation
+            t.set_url(link_url)
     else:
-        ftr.text(0.012, 0.40, f"Source: {tdms_name}", va="center",
+        ftr.text(0.014, 0.38, f"Source: {tdms_name}", va="center",
                  fontsize=6.5, color=C["txt_light"],
                  transform=ftr.transAxes)
 
-    ftr.text(0.50, 0.40,
-             f"Generated: {datetime.now().strftime('%Y-%m-%d  %H:%M:%S')}"
-             f"  |  {REPORT_META['confidential']}",
+    ftr.text(0.50, 0.38,
+             f"Generated: {datetime.now().strftime('%m/%d/%Y  %I:%M:%S %p')}",
              va="center", ha="center", fontsize=6.5,
              color=C["txt_light"], transform=ftr.transAxes)
-    ftr.text(0.988, 0.40, f"Page {page_num} of {total_pages}",
+    ftr.text(0.986, 0.38, f"Page {page_num} of {total_pages}",
              va="center", ha="right", fontsize=7,
              color=C["txt_muted"], transform=ftr.transAxes)
 
@@ -390,39 +491,33 @@ def _make_cover(pdf, tdms_path, plots_config):
     ax.set_facecolor(C["page"])
     ax.axis("off")
 
+    # Cover header band — white with a thin gray bottom border
     ax.add_patch(mpatches.FancyBboxPatch(
         (0, 0.80), 1, 0.20, boxstyle="square,pad=0",
         fc=C["cover_accent"], ec="none", transform=ax.transAxes, zorder=1))
-    pts = np.array([[0.75, 0.80], [1.0, 0.80], [1.0, 1.0], [0.88, 1.0]])
-    ax.add_patch(mpatches.Polygon(pts, closed=True, fc="#162D4A", ec="none",
-                                  transform=ax.transAxes, zorder=2))
-    ax.add_patch(mpatches.FancyBboxPatch(
-        (0, 0.796), 1, 0.007, boxstyle="square,pad=0",
-        fc=C["accent_teal"], ec="none", transform=ax.transAxes, zorder=3))
+    # Thin bottom border on cover band
+    ax.plot([0, 1], [0.800, 0.800], color=C["border"], lw=1.0,
+            transform=ax.transAxes, clip_on=False, zorder=4)
 
-    # Logos inside white badges in cover band (zorder=5 so they sit on top)
-    COVER_LOGO_W = 0.13
+    # Logos inside white badges
+    COVER_LOGO_W = 0.155
     if has_left:
-        _draw_logo(fig, [0.012, 0.820, COVER_LOGO_W, 0.155], b["left_logo_path"])
+        _draw_logo(fig, [0.012, 0.812, COVER_LOGO_W, 0.170], b["left_logo_path"])
     if has_right:
-        _draw_logo(fig, [1 - COVER_LOGO_W - 0.012, 0.820, COVER_LOGO_W, 0.155], b["right_logo_path"])
+        _draw_logo(fig, [1 - COVER_LOGO_W - 0.012, 0.812, COVER_LOGO_W, 0.170], b["right_logo_path"])
 
-    title_x = 0.17 if has_left else 0.055
-    ax.text(title_x, 0.925, REPORT_META["title"],
-            fontsize=22, fontweight="bold",
-            color=C["txt_white"], transform=ax.transAxes, zorder=4)
-    ax.text(title_x, 0.855, REPORT_META["subtitle"],
-            fontsize=11.5, color=C["accent_sky"],
-            transform=ax.transAxes, zorder=4)
+    # Title — CENTERED, black text (on light gray background)
+    ax.text(0.50, 0.900, REPORT_META["title"],
+            fontsize=22, fontweight="bold", ha="center", va="center",
+            color=C["txt_dark"], transform=ax.transAxes, zorder=4)
 
     rows = [
-        ("Document No.",   REPORT_META["doc_no"]),
-        ("Revision",       REPORT_META["revision"]),
-        ("Organization",   REPORT_META["org"]),
-        ("Source File",    os.path.basename(tdms_path)),
-        ("Report Date",    datetime.now().strftime("%d %B %Y")),
-        ("Total Plots",    str(len(plots_config))),
-        ("Classification", REPORT_META["confidential"]),
+        ("Document No.",  REPORT_META["doc_no"]),
+        ("Revision",      REPORT_META["revision"]),
+        ("Organization",  REPORT_META["org"]),
+        ("Source File",   os.path.basename(tdms_path)),
+        ("Report Date",   datetime.now().strftime("%m/%d/%Y")),
+        ("Total Plots",   str(len(plots_config))),
     ]
     y_cur = 0.735
     for i, (label, value) in enumerate(rows):
@@ -471,10 +566,18 @@ def _make_cover(pdf, tdms_path, plots_config):
             transform=ax.transAxes, zorder=0))
         ax.text(col_xs[0], row_y, str(i+1), fontsize=7.5,
                 color=C["txt_muted"], transform=ax.transAxes)
-        ax.text(col_xs[1], row_y, cfg["x_label"][:18],
-                fontsize=7.5, color=C["txt_body"], transform=ax.transAxes)
-        ax.text(col_xs[2], row_y, ", ".join(cfg["y_labels"])[:38],
+        ax.text(col_xs[1], row_y, cfg["x_label"][:16],
                 fontsize=7, color=C["txt_body"], transform=ax.transAxes)
+        # Print all Y labels — wrap to second line if too long
+        y_str = ", ".join(cfg["y_labels"])
+        if len(y_str) <= 44:
+            ax.text(col_xs[2], row_y, y_str,
+                    fontsize=6.8, color=C["txt_body"], transform=ax.transAxes)
+        else:
+            ax.text(col_xs[2], row_y + 0.006, y_str[:44],
+                    fontsize=6.5, color=C["txt_body"], transform=ax.transAxes)
+            ax.text(col_xs[2], row_y - 0.010, y_str[44:88],
+                    fontsize=6.5, color=C["txt_body"], transform=ax.transAxes)
 
     ax.add_patch(mpatches.FancyBboxPatch(
         (0, 0), 1, 0.042, boxstyle="square,pad=0",
@@ -491,8 +594,7 @@ def _make_cover(pdf, tdms_path, plots_config):
         if link_url:
             t.set_url(link_url)
     ax.text(0.500, 0.020,
-            f"{REPORT_META['doc_no']}  |  {REPORT_META['revision']}  |  "
-            f"{REPORT_META['confidential']}  |  Page 1",
+            f"{REPORT_META['doc_no']}  |  {REPORT_META['revision']}  |  Page 1",
             ha="center", va="center", fontsize=7,
             color=C["txt_light"], transform=ax.transAxes, zorder=2)
 
@@ -524,10 +626,10 @@ def _make_toc(pdf, plots_config, total_pages, tdms_name):
         ("4.", "Measurement Plots",   "4",  False),
     ]
     for i, cfg in enumerate(plots_config):
-        y_lbl = ", ".join(cfg["y_labels"])
+        y_lbl = ", ".join(cfg["y_labels"])  # show ALL y labels
         sections.append((
             f"  4.{i+1}.",
-            f"Plot {i+1}:  {cfg['x_label']}  →  {y_lbl[:52]}",
+            f"Plot {i+1}:  {cfg['x_label']}  ->  {y_lbl[:80]}",
             str(5 + i), True,
         ))
     sections.append(("5.", "Appendix – Channel Inventory",
@@ -578,10 +680,11 @@ def _make_exec_summary(pdf, all_stats, total_pages, tdms_name):
             "Values computed on finite (non-NaN) data only.",
             fontsize=8.5, color=C["txt_muted"], transform=ax.transAxes)
 
+    # CV (%) removed as not required
     col_heads = ["Channel / Parameter","N","Mean","Std Dev",
-                 "Variance","Min","Max","Range","RMS","CV (%)"]
-    col_x     = [0.000,0.310,0.375,0.445,0.515,0.585,0.650,0.718,0.788,0.870]
-    col_align = ["l","r","r","r","r","r","r","r","r","r"]
+                 "Variance","Min","Max","Range","RMS"]
+    col_x     = [0.000,0.310,0.385,0.460,0.535,0.615,0.692,0.768,0.876]
+    col_align = ["l","r","r","r","r","r","r","r","r"]
 
     row_y = 0.875
     ax.add_patch(mpatches.FancyBboxPatch(
@@ -598,7 +701,7 @@ def _make_exec_summary(pdf, all_stats, total_pages, tdms_name):
         row_y -= 0.038
         if row_y < 0.04:
             ax.text(0, row_y + 0.012,
-                    f"  … {len(all_stats)-i} more channels on plot pages",
+                    f"  ... {len(all_stats)-i} more channels on plot pages",
                     fontsize=7, color=C["txt_muted"], transform=ax.transAxes)
             break
         s  = entry["stats"]
@@ -610,15 +713,11 @@ def _make_exec_summary(pdf, all_stats, total_pages, tdms_name):
         vals = [entry["label"][:42], fmt(s["n"]),
                 fmt(s["mean"]), fmt(s["std"]), fmt(s["variance"]),
                 fmt(s["min"]), fmt(s["max"]), fmt(s["range"]),
-                fmt(s["rms"]), fmt(s["cv_pct"], 2)]
+                fmt(s["rms"])]
         for val, cx, ca in zip(vals, col_x, col_align):
             ax.text(cx, row_y, val, fontsize=7.5, color=C["txt_body"],
                     transform=ax.transAxes,
                     ha="left" if ca == "l" else "right")
-
-    ax.text(0, 0.022,
-            "CV = Std Dev / |Mean| × 100.  N/A = insufficient data or mean ≈ 0.",
-            fontsize=6.8, color=C["txt_light"], transform=ax.transAxes)
 
     pdf.savefig(fig, bbox_inches="tight")
     plt.close(fig)
@@ -655,179 +754,138 @@ def _make_divider(pdf, section_num, title, subtitle,
     plt.close(fig)
 
 
-# ═══════════════════════════════════════════════════════════════
-#  PER-PLOT PAGE  — each Y channel = individual subplot
-# ═══════════════════════════════════════════════════════════════
+# ==============================================================
+#  PER-CHANNEL PAGE  -  ONE full-page chart per Y channel
+# ==============================================================
 
-def _make_plot_page(pdf, x_data, y_datasets, x_label,
+def _make_plot_page(pdf, x_data, y_label, y_arr, x_label,
                     plot_num, page_num, total_pages, tdms_name):
-    n_y = len(y_datasets)
-
-    if   n_y == 1: nrows, ncols = 1, 1
-    elif n_y == 2: nrows, ncols = 2, 1
-    elif n_y == 3: nrows, ncols = 3, 1
-    elif n_y == 4: nrows, ncols = 2, 2
-    elif n_y <= 6: nrows, ncols = 3, 2
-    else:          nrows, ncols = 4, 2
-
-    n_vis = min(n_y, nrows * ncols)
-
-    if n_y <= 2:
-        ct, cb = 0.930, 0.380
-        st, sb = 0.345, 0.042
-    elif n_y <= 4:
-        ct, cb = 0.930, 0.340
-        st, sb = 0.305, 0.042
-    else:
-        ct, cb = 0.930, 0.295
-        st, sb = 0.260, 0.042
-
+    """
+    Render one Y channel per page.
+    Layout (figure-fraction coords, origin bottom-left):
+      Header  : 0.945 - 1.000  (drawn by _draw_chrome)
+      Stripe  : 0.940 - 0.945
+      Title   : 0.910 - 0.940  (text)
+      Chart   : 0.360 - 0.905  (axes)
+      Stats   : 0.040 - 0.340  (axes)
+      Footer  : 0.000 - 0.028  (drawn by _draw_chrome)
+    """
     fig = plt.figure(figsize=(11.69, 8.27))
     fig.patch.set_facecolor(C["page"])
     _draw_chrome(fig, page_num, total_pages, tdms_name,
-                 f"4.{plot_num}  Plot {plot_num}  —  {x_label}")
+                 f"4.{plot_num}  {y_label}")
 
-    y_names = ", ".join(l for l, _ in y_datasets[:3])
-    if n_y > 3:
-        y_names += f"  +{n_y-3} more"
-    fig.text(0.52, ct + 0.003,
-             f"Plot {plot_num}:   {y_names}   vs   {x_label}",
-             ha="center", va="bottom", fontsize=10,
-             fontweight="bold", color=C["txt_dark"])
+    # -- Chart axes -------------------------------------------------------
+    CT, CB = 0.920, 0.270          # chart starts near top of content area
+    ax = fig.add_axes([0.07, CB, 0.90, CT - CB])
+    ax.set_facecolor(C["panel"])
+    for sp in ax.spines.values():
+        sp.set_color(C["spine"]); sp.set_linewidth(0.6)
+    ax.grid(True, color=C["grid"], linestyle="--", linewidth=0.5, alpha=0.8)
+    ax.xaxis.set_minor_locator(AutoMinorLocator())
+    ax.yaxis.set_minor_locator(AutoMinorLocator())
+    ax.tick_params(which="minor", length=2.5, color=C["border"])
+    ax.tick_params(axis="both", colors=C["txt_muted"], labelsize=8)
 
-    gs = GridSpec(nrows, ncols, figure=fig,
-                  left=0.08, right=0.96, top=ct, bottom=cb,
-                  hspace=0.10 if ncols==1 else 0.20,
-                  wspace=0.0  if ncols==1 else 0.22)
+    # Trim arrays to same length
+    n   = min(len(x_data), len(y_arr))
+    xs  = x_data[:n]
+    ys  = y_arr[:n]
 
-    chart_axes = []
-    shared_x   = None
-    for idx in range(n_vis):
-        r, c = divmod(idx, ncols)
-        ax = fig.add_subplot(gs[r, c]) if shared_x is None \
-             else fig.add_subplot(gs[r, c], sharex=shared_x)
-        if shared_x is None:
-            shared_x = ax
-        chart_axes.append(ax)
+    # Filter to finite values only (removes NaN / Inf spikes)
+    mask = np.isfinite(xs) & np.isfinite(ys)
+    xs_f = xs[mask]
+    ys_f = ys[mask]
 
-    for idx, ax in enumerate(chart_axes):
-        y_label, y_data = y_datasets[idx]
-        color = LINE_COLORS[idx % len(LINE_COLORS)]
-        n     = min(len(x_data), len(y_data))
-        xs, ys = x_data[:n], y_data[:n]
+    color = LINE_COLORS[0]
 
-        ax.set_facecolor(C["panel"])
-        for sp in ax.spines.values():
-            sp.set_color(C["spine"]); sp.set_linewidth(0.5)
-        ax.grid(True, color=C["grid"], linestyle="--",
-                linewidth=0.5, alpha=0.85)
-        ax.xaxis.set_minor_locator(AutoMinorLocator())
-        ax.yaxis.set_minor_locator(AutoMinorLocator())
-        ax.tick_params(which="minor", length=2.5, color=C["border"])
-        ax.tick_params(axis="both", colors=C["txt_muted"], labelsize=7)
+    if len(xs_f) > 0:
+        ax.plot(xs_f, ys_f, color=color, linewidth=1.4,
+                alpha=0.90, zorder=3, solid_capstyle="round")
+        ax.fill_between(xs_f, ys_f, alpha=0.07, color=color, zorder=2)
+        mv = float(np.nanmean(ys_f))
+        ax.axhline(y=mv, color=color, linewidth=1.0,
+                   linestyle="--", alpha=0.60, zorder=4,
+                   label=f"Mean = {fmt(mv, 4)}")
+        ax.legend(loc="upper left", fontsize=8, framealpha=0.85,
+                  edgecolor=C["border"])
+    else:
+        ax.text(0.5, 0.5, "No finite data", ha="center", va="center",
+                fontsize=14, color=C["txt_muted"], transform=ax.transAxes)
+        mv = float("nan")
 
-        is_last = ((idx // ncols) == nrows-1) or (idx == n_vis-1)
-        if not is_last:
-            plt.setp(ax.get_xticklabels(), visible=False)
-            ax.tick_params(axis="x", length=0)
+    ax.set_xlabel(x_label, fontsize=9, labelpad=6, color=C["txt_body"],
+                  fontweight="bold")
+    ax.set_ylabel(y_label, fontsize=9, labelpad=6, color=color,
+                  fontweight="bold")
 
-        ax.plot(xs, ys, color=color, linewidth=1.5,
-                alpha=0.88, zorder=3, solid_capstyle="round")
-        ax.fill_between(xs, ys, alpha=0.08, color=color, zorder=2)
+    # -- Statistics table ------------------------------------------------
+    ST, SB = 0.240, 0.038          # reduced height stats band
+    sa = fig.add_axes([0.07, SB, 0.90, ST - SB])
+    sa.set_facecolor(C["page"])
+    sa.axis("off")
 
-        mv = float(np.nanmean(ys))
-        ax.axhline(y=mv, color=color, linewidth=0.85,
-                   linestyle=":", alpha=0.65, zorder=4)
-
-        ax.set_ylabel(y_label[:26], fontsize=7.5, labelpad=4,
-                      color=color, fontweight="bold")
-        ax.text(0.010, 0.96, y_label, fontsize=6.8, color=color,
-                fontweight="bold", transform=ax.transAxes, va="top",
-                bbox=dict(boxstyle="round,pad=0.25", fc="white",
-                          ec=color, lw=0.6, alpha=0.90))
-        ax.text(0.990, 0.96, f"μ = {fmt(mv, 4)}", fontsize=6.8,
-                color=color, transform=ax.transAxes, va="top", ha="right",
-                bbox=dict(boxstyle="round,pad=0.25", fc="white",
-                          ec=color, lw=0.5, alpha=0.85))
-        if is_last:
-            ax.set_xlabel(x_label, fontsize=8.5, labelpad=5,
-                          color=C["txt_body"])
-
-    # Statistics table
-    stats_ax = fig.add_axes([0.03, sb, 0.94, st - sb])
-    stats_ax.set_facecolor(C["page"])
-    stats_ax.axis("off")
+    s = compute_stats(ys_f if len(xs_f) > 0 else ys)
 
     stat_defs = [
-        ("n",        "N  (Samples)"),
+        ("n",        "N (Samples)"),
         ("mean",     "Mean"),
         ("median",   "Median"),
-        ("std",      "Std Deviation  (σ)"),
-        ("variance", "Variance  (σ²)"),
+        ("std",      "Std Dev"),
+        ("variance", "Variance"),
         ("min",      "Minimum"),
         ("max",      "Maximum"),
-        ("range",    "Range  (Max − Min)"),
+        ("range",    "Range"),
         ("rms",      "RMS"),
-        ("cv_pct",   "CV  (%)"),
     ]
-    ch_stats   = [compute_stats(arr) for _, arr in y_datasets]
-    LPAD       = 0.006
-    LABEL_FRAC = 0.160
-    DATA_FRAC  = (1.0 - LABEL_FRAC) / n_y
-    HDR_H      = 0.115
-    ROW_H      = (1.0 - HDR_H) / len(stat_defs)
 
-    stats_ax.add_patch(mpatches.FancyBboxPatch(
+    # Header bar
+    HDR_H = 0.18
+    sa.add_patch(mpatches.FancyBboxPatch(
         (0.0, 1.0 - HDR_H), 1.0, HDR_H, boxstyle="square,pad=0",
-        fc=C["accent_navy"], ec="none",
-        transform=stats_ax.transAxes, zorder=2))
-    stats_ax.text(LPAD, 1.0 - HDR_H*0.5, "Statistical Summary",
-                  va="center", fontsize=8.5, fontweight="bold",
-                  color=C["txt_white"],
-                  transform=stats_ax.transAxes, zorder=3)
+        fc=C["accent_navy"], ec="none", transform=sa.transAxes, zorder=2))
+    sa.text(0.010, 1.0 - HDR_H * 0.5,
+            f"Statistical Summary  --  {y_label}",
+            va="center", fontsize=9, fontweight="bold",
+            color=C["txt_white"], transform=sa.transAxes, zorder=3)
 
-    for ci, (y_label, _) in enumerate(y_datasets):
-        cx = LABEL_FRAC + ci * DATA_FRAC
-        col_c = LINE_COLORS[ci % len(LINE_COLORS)]
-        stats_ax.add_patch(mpatches.FancyBboxPatch(
-            (cx + 0.001, 1.0 - HDR_H + 0.002),
-            DATA_FRAC - 0.003, HDR_H - 0.004,
-            boxstyle="square,pad=0", fc=col_c, ec="none", alpha=0.14,
-            transform=stats_ax.transAxes, zorder=1))
-        stats_ax.text(cx + LPAD, 1.0 - HDR_H*0.5, y_label[:20],
-                      va="center", fontsize=7.5, fontweight="bold",
-                      color=col_c,
-                      transform=stats_ax.transAxes, zorder=3)
+    n_cols  = 9
+    COL_W   = 1.0 / n_cols
+    ROW_H   = (1.0 - HDR_H) / 2.0    # two rows: labels + values
 
-    for ri, (sk, sl) in enumerate(stat_defs):
-        ry_top = 1.0 - HDR_H - ri * ROW_H
-        ry_ctr = ry_top - ROW_H * 0.50
-        bg = C["row_even"] if ri % 2 == 0 else C["row_odd"]
-        stats_ax.add_patch(mpatches.FancyBboxPatch(
-            (0.0, ry_top - ROW_H), 1.0, ROW_H,
+    # Labels row
+    ry_lbl = 1.0 - HDR_H - ROW_H * 0.42
+    for ci, (sk, sl) in enumerate(stat_defs):
+        cx = ci * COL_W
+        bg = C["row_even"] if ci % 2 == 0 else C["row_odd"]
+        sa.add_patch(mpatches.FancyBboxPatch(
+            (cx, 1.0 - HDR_H - ROW_H), COL_W, ROW_H,
             boxstyle="square,pad=0", fc=bg, ec=C["border"],
-            linewidth=0.20, transform=stats_ax.transAxes))
-        stats_ax.text(LPAD, ry_ctr, sl, va="center", fontsize=7.5,
-                      color=C["txt_body"], transform=stats_ax.transAxes)
-        stats_ax.plot([LABEL_FRAC, LABEL_FRAC], [ry_top-ROW_H, ry_top],
-                      color=C["accent_slate"], lw=0.7,
-                      transform=stats_ax.transAxes, clip_on=False)
-        for ci, s in enumerate(ch_stats):
-            cx  = LABEL_FRAC + ci * DATA_FRAC
-            val = fmt(s[sk], 5 if sk == "variance" else 4)
-            stats_ax.text(cx + LPAD, ry_ctr, val, va="center",
-                          fontsize=7.5, color=C["txt_dark"],
-                          transform=stats_ax.transAxes)
-            if ci < n_y - 1:
-                x_div = cx + DATA_FRAC
-                stats_ax.plot([x_div, x_div], [ry_top-ROW_H, ry_top],
-                              color=C["border"], lw=0.4,
-                              transform=stats_ax.transAxes, clip_on=False)
+            linewidth=0.3, transform=sa.transAxes))
+        sa.text(cx + COL_W * 0.5, ry_lbl, sl,
+                ha="center", va="center", fontsize=9.0,
+                color=C["txt_muted"], transform=sa.transAxes)
 
-    stats_ax.add_patch(mpatches.FancyBboxPatch(
+    # Values row
+    ry_val = 1.0 - HDR_H - ROW_H - ROW_H * 0.50
+    for ci, (sk, sl) in enumerate(stat_defs):
+        cx  = ci * COL_W
+        bg  = C["row_odd"] if ci % 2 == 0 else C["row_even"]
+        val = fmt(s[sk], 5 if sk == "variance" else 4)
+        sa.add_patch(mpatches.FancyBboxPatch(
+            (cx, 0.0), COL_W, ROW_H,
+            boxstyle="square,pad=0", fc=bg, ec=C["border"],
+            linewidth=0.3, transform=sa.transAxes))
+        sa.text(cx + COL_W * 0.5, ry_val, val,
+                ha="center", va="center", fontsize=11.0,
+                fontweight="bold", color=C["txt_dark"],
+                transform=sa.transAxes)
+
+    # Outer border
+    sa.add_patch(mpatches.FancyBboxPatch(
         (0.0, 0.0), 1.0, 1.0, boxstyle="square,pad=0",
-        fc="none", ec=C["accent_slate"], linewidth=0.8,
-        transform=stats_ax.transAxes))
+        fc="none", ec=C["border"], linewidth=0.8,
+        transform=sa.transAxes))
 
     pdf.savefig(fig, bbox_inches="tight")
     plt.close(fig)
@@ -837,60 +895,100 @@ def _make_plot_page(pdf, x_data, y_datasets, x_label,
 #  APPENDIX
 # ═══════════════════════════════════════════════════════════════
 
-def _make_appendix(pdf, raw_data, page_num, total_pages, tdms_name):
-    fig = plt.figure(figsize=(11.69, 8.27))
-    fig.patch.set_facecolor(C["page"])
-    _draw_chrome(fig, page_num, total_pages, tdms_name,
-                 "Appendix – Channel Inventory")
-    ax = fig.add_axes([0.04, 0.05, 0.92, 0.87])
-    ax.set_facecolor(C["page"])
-    ax.axis("off")
-    ax.text(0, 0.960, "5.  APPENDIX — CHANNEL INVENTORY",
-            fontsize=13, fontweight="bold",
-            color=C["accent_navy"], transform=ax.transAxes)
-    ax.add_patch(mpatches.FancyBboxPatch(
-        (-0.01, 0.930), 1.02, 0.005, boxstyle="square,pad=0",
-        fc=C["accent_teal"], ec="none", transform=ax.transAxes))
-    ax.text(0, 0.905,
-            f"All {len(raw_data)} numeric channels in the source TDMS file.",
-            fontsize=8.5, color=C["txt_muted"], transform=ax.transAxes)
+def _make_appendix(pdf, raw_data, page_num_start, total_pages, tdms_name):
+    """
+    Render ALL channels across as many pages as needed.
+    Returns the number of pages generated.
+    """
+    import math
+    ROWS_PER_PAGE = 28        # rows that fit per page
+    ROW_STEP      = 0.030     # height per row in axes fraction
+    ROW_H_BOX     = 0.026     # box height (slightly less than step)
+    HEADER_START  = 0.875     # y where column header row is drawn
+    DATA_START    = HEADER_START - 0.038   # first data row top
+    STOP_Y        = 0.028     # don't draw below this
 
-    col_heads = ["#","Channel Key  (Group / Name)",
-                 "Samples","Min","Mean","Max","Std Dev"]
-    col_x     = [0.000,0.040,0.640,0.710,0.780,0.848,0.918]
-    row_y = 0.875
-    ax.add_patch(mpatches.FancyBboxPatch(
-        (-0.01, row_y - 0.014), 1.02, 0.040,
-        boxstyle="square,pad=0", fc=C["accent_navy"], ec="none",
-        transform=ax.transAxes))
-    for hd, cx in zip(col_heads, col_x):
-        ax.text(cx, row_y, hd, fontsize=7.5, fontweight="bold",
-                color=C["txt_white"], transform=ax.transAxes)
-    row_y -= 0.038
-    for i, (key, arr) in enumerate(raw_data.items()):
-        row_y -= 0.034
-        if row_y < 0.03:
-            ax.text(0, row_y + 0.010,
-                    f"  … and {len(raw_data)-i} more channels",
-                    fontsize=7, color=C["txt_muted"],
-                    transform=ax.transAxes)
-            break
-        a  = arr[np.isfinite(arr)]
-        bg = C["row_even"] if i % 2 == 0 else C["row_odd"]
+    all_channels = list(raw_data.items())
+    n_total      = len(all_channels)
+    n_pages      = max(1, math.ceil(n_total / ROWS_PER_PAGE))
+
+    col_heads = ["#", "Channel Key  (Group / Name)",
+                 "Samples", "Min", "Mean", "Max", "Std Dev"]
+    col_x     = [0.000, 0.040, 0.640, 0.710, 0.780, 0.848, 0.918]
+
+    for pg in range(n_pages):
+        page_num   = page_num_start + pg
+        batch      = all_channels[pg * ROWS_PER_PAGE : (pg + 1) * ROWS_PER_PAGE]
+        page_label = f"(Page {pg+1} of {n_pages})" if n_pages > 1 else ""
+
+        fig = plt.figure(figsize=(11.69, 8.27))
+        fig.patch.set_facecolor(C["page"])
+        _draw_chrome(fig, page_num, total_pages, tdms_name,
+                     "Appendix - Channel Inventory")
+        ax = fig.add_axes([0.04, 0.05, 0.92, 0.87])
+        ax.set_facecolor(C["page"])
+        ax.axis("off")
+
+        # Section title (first page only)
+        if pg == 0:
+            ax.text(0, 0.960, "5.  APPENDIX -- CHANNEL INVENTORY",
+                    fontsize=13, fontweight="bold",
+                    color=C["accent_navy"], transform=ax.transAxes)
+            ax.add_patch(mpatches.FancyBboxPatch(
+                (-0.01, 0.930), 1.02, 0.004, boxstyle="square,pad=0",
+                fc=C["border"], ec="none", transform=ax.transAxes))
+            ax.text(0, 0.905,
+                    f"All {n_total} numeric channels in the source TDMS file.  {page_label}",
+                    fontsize=8.5, color=C["txt_muted"], transform=ax.transAxes)
+        else:
+            ax.text(0, 0.960,
+                    f"5.  APPENDIX -- CHANNEL INVENTORY  {page_label}",
+                    fontsize=13, fontweight="bold",
+                    color=C["accent_navy"], transform=ax.transAxes)
+            ax.add_patch(mpatches.FancyBboxPatch(
+                (-0.01, 0.930), 1.02, 0.004, boxstyle="square,pad=0",
+                fc=C["border"], ec="none", transform=ax.transAxes))
+
+        # Column header
+        row_y = HEADER_START
         ax.add_patch(mpatches.FancyBboxPatch(
-            (-0.01, row_y - 0.010), 1.02, 0.030,
-            boxstyle="square,pad=0", fc=bg, ec=C["border"],
-            linewidth=0.2, transform=ax.transAxes))
-        vals = [str(i+1), key[:62], f"{len(a):,}",
+            (-0.01, row_y - 0.014), 1.02, 0.040,
+            boxstyle="square,pad=0", fc=C["accent_navy"], ec="none",
+            transform=ax.transAxes))
+        for hd, cx in zip(col_heads, col_x):
+            ax.text(cx, row_y, hd, fontsize=7.5, fontweight="bold",
+                    color=C["txt_white"], transform=ax.transAxes)
+
+        # Data rows
+        row_y = DATA_START
+        for local_i, (key, arr) in enumerate(batch):
+            global_i = pg * ROWS_PER_PAGE + local_i
+            row_y   -= ROW_STEP
+            if row_y < STOP_Y:
+                break
+            a  = arr[np.isfinite(arr)]
+            bg = C["row_even"] if local_i % 2 == 0 else C["row_odd"]
+            ax.add_patch(mpatches.FancyBboxPatch(
+                (-0.01, row_y - 0.008), 1.02, ROW_H_BOX,
+                boxstyle="square,pad=0", fc=bg, ec=C["border"],
+                linewidth=0.2, transform=ax.transAxes))
+            vals = [
+                str(global_i + 1),
+                key[:65],
+                f"{len(a):,}",
                 fmt(float(np.min(a))  if len(a) else float("nan"), 3),
                 fmt(float(np.mean(a)) if len(a) else float("nan"), 3),
                 fmt(float(np.max(a))  if len(a) else float("nan"), 3),
-                fmt(float(np.std(a))  if len(a) else float("nan"), 3)]
-        for val, cx in zip(vals, col_x):
-            ax.text(cx, row_y, val, fontsize=7.5,
-                    color=C["txt_body"], transform=ax.transAxes)
-    pdf.savefig(fig, bbox_inches="tight")
-    plt.close(fig)
+                fmt(float(np.std(a))  if len(a) else float("nan"), 3),
+            ]
+            for val, cx in zip(vals, col_x):
+                ax.text(cx, row_y, val, fontsize=7.5,
+                        color=C["txt_body"], transform=ax.transAxes)
+
+        pdf.savefig(fig, bbox_inches="tight")
+        plt.close(fig)
+
+    return n_pages
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -918,16 +1016,11 @@ def generate_pdf(tdms_path: str, plots_config: list,
     for cfg in plots_config:
         x_key = best_match(cfg["x_label"], avail)
         if not x_key:
-            print(f"[!] X '{cfg['x_label']}' not found — skipped.")
+            print(f"[!] X '{cfg['x_label']}' not found -- skipped.")
             continue
-        y_sets = []
-        for y_lbl in cfg["y_labels"]:
-            y_key = best_match(y_lbl, avail)
-            if y_key:
-                y_sets.append((y_lbl, raw_data[y_key]))
-                print(f"    ✓ '{y_lbl}' → '{y_key}'")
-            else:
-                print(f"    [!] '{y_lbl}' not found.")
+        # Use known_channels if available in cfg for better matching
+        known = cfg.get("known_channels", None)
+        y_sets = resolve_y_labels(cfg["y_labels"], raw_data, known)
         if y_sets:
             resolved.append({"x_label": cfg["x_label"],
                              "x_data":  raw_data[x_key],
@@ -944,31 +1037,45 @@ def generate_pdf(tdms_path: str, plots_config: list,
                 seen[lbl] = arr
     all_stats  = [{"label": lbl, "stats": compute_stats(arr)}
                   for lbl, arr in seen.items()]
-    total_pages = 6 + len(resolved)
+    # Count total Y channels and appendix pages
+    import math
+    n_total_ych      = sum(len(rp["y_datasets"]) for rp in resolved)
+    n_appendix_pages = max(1, math.ceil(len(raw_data) / 28))
+    # Pages: cover + toc + exec + sec4_div + plots + sec5_div + appendix_pages
+    total_pages = 5 + n_total_ych + 1 + n_appendix_pages
     tdms_name   = os.path.basename(tdms_path)
 
     _apply_style()
     with PdfPages(output_path) as pdf:
-        print("[+] Cover…")
+        print("[+] Cover...")
         _make_cover(pdf, tdms_path, plots_config)
-        print("[+] Table of Contents…")
+        print("[+] Table of Contents...")
         _make_toc(pdf, plots_config, total_pages, tdms_name)
-        print("[+] Executive Summary…")
+        print("[+] Executive Summary...")
         _make_exec_summary(pdf, all_stats, total_pages, tdms_name)
         _make_divider(pdf, "4", "Measurement Plots",
-                      "Individual X–Y subplots with statistical evaluation",
+                      "One chart per channel with statistical summary",
                       4, total_pages, tdms_name)
-        for pi, rp in enumerate(resolved, 1):
-            y_str = ", ".join(l for l, _ in rp["y_datasets"])
-            print(f"[+] Plot {pi}/{len(resolved)}: {rp['x_label']} → {y_str}…")
-            _make_plot_page(pdf, rp["x_data"], rp["y_datasets"],
-                            rp["x_label"], pi, 4+pi,
-                            total_pages, tdms_name)
-        app_pg = 5 + len(resolved)
+
+        # One page per Y channel
+        plot_num = 0
+        for rp in resolved:
+            for y_label, y_arr in rp["y_datasets"]:
+                plot_num += 1
+                page_num  = 4 + plot_num
+                print(f"[+] Plot {plot_num}/{n_total_ych}: {y_label} vs {rp['x_label']}...")
+                _make_plot_page(pdf,
+                                rp["x_data"], y_label, y_arr,
+                                rp["x_label"],
+                                plot_num, page_num,
+                                total_pages, tdms_name)
+
+        app_pg = 4 + n_total_ych + 1   # section 5 divider page number
         _make_divider(pdf, "5", "Appendix",
                       "Full channel inventory from TDMS file",
                       app_pg, total_pages, tdms_name)
-        _make_appendix(pdf, raw_data, app_pg+1, total_pages, tdms_name)
+        print(f"[+] Appendix ({n_appendix_pages} page(s), {len(raw_data)} channels)...")
+        _make_appendix(pdf, raw_data, app_pg + 1, total_pages, tdms_name)
 
         d = pdf.infodict()
         d["Title"]        = REPORT_META["title"]
@@ -1034,78 +1141,149 @@ def get_channel_stats(tdms_path: str, channel_name: str) -> str:
 def generate_report_simple(*args) -> str:
     """
     Generate PDF — single plot group.
-    Accepts 4 to 10 positional arguments from LabVIEW safely:
-      args[0] : tdms_path (str)
-      args[1] : output_path (str)
-      args[2] : x_label (str)
-      args[3] : y_labels_csv (str)
-      args[4] : report_title (str, optional)
-      args[5] : doc_no (str, optional)
-      args[6] : left_logo_path (str, optional)
-      args[7] : right_logo_path (str, optional)
-      args[8] : footer_link_text (str, optional)
-      args[9] : footer_link_url (str, optional)
+    Accepts 4 to 13 positional arguments from LabVIEW safely:
+
+      args[0]  : tdms_path        (str)  — full path to .tdms file
+      args[1]  : output_path      (str)  — full path for output .pdf
+      args[2]  : x_label          (str)  — X-axis channel name
+      args[3]  : y_labels_csv     (str)  — comma-separated Y channel names
+      args[4]  : report_title     (str)  — report title (optional)
+      args[5]  : doc_no           (str)  — document number (optional)
+      args[6]  : left_logo_path   (str)  — path to left logo image (optional)
+      args[7]  : right_logo_path  (str)  — path to right logo image (optional)
+      args[8]  : footer_link_text (str)  — footer hyperlink label (optional)
+      args[9]  : footer_link_url  (str)  — footer hyperlink URL (optional)
+      args[10] : organization     (str)  — organization name (optional)
+      args[11] : revision         (str)  — document revision e.g. 'Rev A' (optional)
+      args[12] : channel_list_csv (str)  — ALL available channel names from
+                                           LabVIEW, comma-separated (optional).
+                                           When provided, Python uses these
+                                           EXACT names for matching instead of
+                                           guessing from the TDMS file keys.
+                                           Add new channels here as your system grows.
     """
     try:
         if len(args) < 2:
             return "ERROR: At least tdms_path and output_path must be provided."
 
-        tdms_path        = str(args[0]) if len(args) > 0 and args[0] is not None else ""
-        output_path      = str(args[1]) if len(args) > 1 and args[1] is not None else ""
-        x_label          = str(args[2]) if len(args) > 2 and args[2] is not None else "Time(Sec)"
-        y_labels_csv     = str(args[3]) if len(args) > 3 and args[3] is not None else ""
-        report_title     = str(args[4]) if len(args) > 4 and args[4] is not None else ""
-        doc_no           = str(args[5]) if len(args) > 5 and args[5] is not None else ""
-        left_logo_path   = str(args[6]) if len(args) > 6 and args[6] is not None else ""
-        right_logo_path  = str(args[7]) if len(args) > 7 and args[7] is not None else ""
-        footer_link_text = str(args[8]) if len(args) > 8 and args[8] is not None else ""
-        footer_link_url  = str(args[9]) if len(args) > 9 and args[9] is not None else ""
+        tdms_path        = str(args[0])  if len(args) > 0  and args[0]  is not None else ""
+        output_path      = str(args[1])  if len(args) > 1  and args[1]  is not None else ""
+        x_label          = str(args[2])  if len(args) > 2  and args[2]  is not None else "Time(Sec)"
+        y_labels_csv     = str(args[3])  if len(args) > 3  and args[3]  is not None else ""
+        report_title     = str(args[4])  if len(args) > 4  and args[4]  is not None else ""
+        doc_no           = str(args[5])  if len(args) > 5  and args[5]  is not None else ""
+        left_logo_path   = str(args[6])  if len(args) > 6  and args[6]  is not None else ""
+        right_logo_path  = str(args[7])  if len(args) > 7  and args[7]  is not None else ""
+        footer_link_text = str(args[8])  if len(args) > 8  and args[8]  is not None else ""
+        footer_link_url  = str(args[9])  if len(args) > 9  and args[9]  is not None else ""
+        organization     = str(args[10]) if len(args) > 10 and args[10] is not None else ""
+        revision         = str(args[11]) if len(args) > 11 and args[11] is not None else ""
+        channel_list_csv = str(args[12]) if len(args) > 12 and args[12] is not None else ""
 
-        if report_title: REPORT_META["title"]  = report_title
-        if doc_no:       REPORT_META["doc_no"] = doc_no
+        if report_title:  REPORT_META["title"]    = report_title
+        if doc_no:        REPORT_META["doc_no"]   = doc_no
+        if organization:  REPORT_META["org"]      = organization
+        if revision:      REPORT_META["revision"] = revision
 
         y_labels = [l.strip() for l in y_labels_csv.split(",") if l.strip()]
         if not y_labels:
             return "ERROR: y_labels_csv is empty."
+
+        # Parse the known channel list (sent from LabVIEW)
+        known_channels = [c.strip() for c in channel_list_csv.split(",")
+                          if c.strip()] if channel_list_csv.strip() else None
 
         branding = {"left_logo_path":   left_logo_path.strip(),
                     "right_logo_path":  right_logo_path.strip(),
                     "footer_link_text": footer_link_text.strip(),
                     "footer_link_url":  footer_link_url.strip()}
 
+        # Pass known_channels into the plot config so generate_pdf can use them
         generate_pdf(tdms_path,
-                     [{"x_label": x_label, "y_labels": y_labels}],
+                     [{"x_label": x_label,
+                       "y_labels": y_labels,
+                       "known_channels": known_channels}],
                      output_path, branding)
 
+        # ── Write diagnostic log ──────────────────────────────────────────
         log = output_path.replace(".pdf", "_log.txt")
         try:
+            raw_data = load_tdms(tdms_path)
+            avail    = list(raw_data.keys())
+            x_match  = best_match(x_label, avail)
+            y_matches = [(lbl,
+                          (best_match(best_match(lbl, known_channels) or lbl, avail)
+                           if known_channels
+                           else best_match(lbl, avail)) or "NOT FOUND")
+                         for lbl in y_labels]
             with open(log, "w", encoding="utf-8") as f:
-                f.write(f"SUCCESS {datetime.now()}\n"
-                        f"TDMS: {tdms_path}\nOutput: {output_path}\n"
-                        f"X: {x_label}\nY: {y_labels_csv}\n"
-                        f"Left logo : {left_logo_path  or '(none)'}\n"
-                        f"Right logo: {right_logo_path or '(none)'}\n"
-                        f"Footer    : {footer_link_text} -> {footer_link_url}\n")
-        except Exception:
-            pass
+                f.write(f"SUCCESS {datetime.now()}\n")
+                f.write(f"TDMS     : {tdms_path}\n")
+                f.write(f"Output   : {output_path}\n")
+                f.write(f"Org      : {organization or '(none)'}\n")
+                f.write(f"Revision : {revision or '(none)'}\n")
+                f.write(f"Known CH : {'YES (' + str(len(known_channels)) + ' channels)' if known_channels else 'NO (fuzzy only)'}\n\n")
+                f.write("--- Channel Match Results ---\n")
+                f.write(f"  X: '{x_label}' -> '{x_match or 'NOT FOUND'}'\n")
+                for lbl, matched in y_matches:
+                    ok = "OK " if matched != "NOT FOUND" else "!!!"
+                    f.write(f"  [{ok}] Y '{lbl}' -> '{matched}'\n")
+                f.write(f"\n--- Available TDMS channels ({len(avail)}) ---\n")
+                for ch in avail:
+                    f.write(f"  {ch}\n")
+                if known_channels:
+                    f.write(f"\n--- Provided channel list ({len(known_channels)}) ---\n")
+                    for i, ch in enumerate(known_channels):
+                        f.write(f"  [{i}] {ch}\n")
+        except Exception as log_err:
+            try:
+                with open(log, "w", encoding="utf-8") as f:
+                    f.write(f"SUCCESS (log error: {log_err})\n")
+            except Exception:
+                pass
 
         return f"SUCCESS: {output_path}"
     except Exception as exc:
         return f"ERROR: {exc}\n{traceback.format_exc(limit=4)}"
 
 
-def generate_report_4args(tdms_path: str, output_path: str, x_label: str, y_labels_csv: str) -> str:
-    """Explicit 4-argument version for LabVIEW Python Node with 4 inputs."""
+def generate_report_4args(tdms_path: str, output_path: str,
+                          x_label: str, y_labels_csv: str) -> str:
+    """Explicit 4-argument version for LabVIEW Python Node."""
     return generate_report_simple(tdms_path, output_path, x_label, y_labels_csv)
 
 
-def generate_report_10args(tdms_path: str, output_path: str, x_label: str, y_labels_csv: str,
-                            report_title: str, doc_no: str, left_logo_path: str,
-                            right_logo_path: str, footer_link_text: str, footer_link_url: str) -> str:
-    """Explicit 10-argument version for LabVIEW Python Node with 10 inputs."""
+def generate_report_12args(tdms_path: str, output_path: str,
+                            x_label: str, y_labels_csv: str,
+                            report_title: str, doc_no: str,
+                            left_logo_path: str, right_logo_path: str,
+                            footer_link_text: str, footer_link_url: str,
+                            organization: str, revision: str) -> str:
+    """Explicit 12-argument version for LabVIEW Python Node."""
     return generate_report_simple(tdms_path, output_path, x_label, y_labels_csv,
                                   report_title, doc_no, left_logo_path, right_logo_path,
-                                  footer_link_text, footer_link_url)
+                                  footer_link_text, footer_link_url,
+                                  organization, revision)
+
+
+def generate_report_13args(tdms_path: str, output_path: str,
+                            x_label: str, y_labels_csv: str,
+                            report_title: str, doc_no: str,
+                            left_logo_path: str, right_logo_path: str,
+                            footer_link_text: str, footer_link_url: str,
+                            organization: str, revision: str,
+                            channel_list_csv: str) -> str:
+    """
+    Explicit 13-argument version for LabVIEW Python Node.
+    channel_list_csv: ALL channel names from your system,
+    comma-separated. Example:
+    'Time(Sec),Normal Load (N),Friction Force(N),Coefficient of Friction,...'
+    Add new channels here as your instrument grows.
+    """
+    return generate_report_simple(tdms_path, output_path, x_label, y_labels_csv,
+                                  report_title, doc_no, left_logo_path, right_logo_path,
+                                  footer_link_text, footer_link_url,
+                                  organization, revision, channel_list_csv)
 
 
 def generate_report_multi(*args) -> str:

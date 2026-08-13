@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python 3.9 Setup Guide – TDMS Report Generator</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 14px;
+      background: #ffffff;
+      color: #111111;
+      line-height: 1.65;
+    }
+
+    /* ── Page Wrapper ── */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 32px 80px;
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      border-bottom: 2px solid #cccccc;
+      padding-bottom: 20px;
+      margin-bottom: 36px;
+    }
+    .doc-header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #000000;
+      margin-bottom: 6px;
+    }
+    .doc-header .meta {
+      font-size: 12px;
+      color: #666666;
+    }
+    .doc-header .meta span { margin-right: 20px; }
+
+    /* ── Section headings ── */
+    h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #000000;
+      margin: 36px 0 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #dddddd;
+    }
+    h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #222222;
+      margin: 20px 0 8px;
+    }
+
+    /* ── Steps ── */
+    .steps { counter-reset: step; list-style: none; padding: 0; }
+    .steps li {
+      counter-increment: step;
+      display: flex;
+      gap: 16px;
+      margin-bottom: 18px;
+      align-items: flex-start;
+    }
+    .steps li::before {
+      content: counter(step);
+      min-width: 28px;
+      height: 28px;
+      background: #111111;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .steps li .step-body { flex: 1; }
+    .steps li .step-body strong { display: block; margin-bottom: 4px; font-size: 13.5px; }
+    .steps li .step-body p { color: #333333; margin-bottom: 4px; }
+
+    /* ── Info / Warning boxes ── */
+    .box {
+      border-left: 3px solid #888888;
+      background: #f8f8f8;
+      padding: 10px 16px;
+      border-radius: 0 4px 4px 0;
+      margin: 12px 0;
+      font-size: 13px;
+      color: #333333;
+    }
+    .box.warn { border-color: #999900; background: #fffdf0; }
+    .box.ok   { border-color: #449944; background: #f4fbf4; }
+
+    /* ── Code / Command blocks ── */
+    pre, code {
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 12.5px;
+      background: #f2f2f2;
+      border: 1px solid #dddddd;
+    }
+    code { padding: 1px 5px; border-radius: 3px; }
+    pre {
+      padding: 12px 16px;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin: 10px 0;
+      line-height: 1.55;
+      white-space: pre;
+    }
+
+    /* ── Package table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 13px;
+    }
+    thead tr { background: #111111; color: #ffffff; }
+    thead th { padding: 9px 12px; text-align: left; font-weight: 600; }
+    tbody tr:nth-child(even) { background: #f5f5f5; }
+    tbody tr:nth-child(odd)  { background: #ffffff; }
+    tbody td { padding: 8px 12px; border-bottom: 1px solid #e0e0e0; vertical-align: top; }
+
+    /* ── Download button style link ── */
+    .download-link {
+      display: inline-block;
+      border: 1px solid #222222;
+      padding: 8px 18px;
+      border-radius: 4px;
+      background: #111111;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      margin: 6px 0;
+    }
+    .download-link:hover { background: #333333; }
+
+    /* ── Checkmark list ── */
+    .check-list { list-style: none; padding: 0; }
+    .check-list li { padding: 4px 0; padding-left: 22px; position: relative; }
+    .check-list li::before {
+      content: "✔";
+      position: absolute; left: 0;
+      color: #449944; font-size: 12px;
+    }
+
+    /* ── Footer ── */
+    .doc-footer {
+      margin-top: 60px;
+      border-top: 1px solid #cccccc;
+      padding-top: 14px;
+      font-size: 11.5px;
+      color: #888888;
+    }
+
+    @media print {
+      body { font-size: 11px; }
+      .page { padding: 20px; }
+      .download-link { display: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Document Header ── -->
+  <div class="doc-header">
+    <h1>Python 3.9 Installation &amp; Dependency Setup Guide</h1>
+    <div class="meta">
+      <span>Document: SETUP-TDMS-001</span>
+      <span>For: TDMS Report Generator (tdms_report.py)</span>
+      <span>Rev A</span>
+    </div>
+  </div>
+
+  <!-- ── Overview ── -->
+  <h2>1. Overview</h2>
+  <p>This guide covers the complete setup required to run <code>tdms_report.py</code> on a Windows machine connected to LabVIEW. It includes:</p>
+  <ul class="check-list" style="margin-top:10px;">
+    <li>Python 3.9.x 64-bit installation</li>
+    <li>Verifying PATH configuration</li>
+    <li>Installing all required Python packages</li>
+    <li>Running the provided <code>setup_dependencies.cmd</code> batch file</li>
+    <li>Verifying the setup is working</li>
+  </ul>
+
+  <div class="box ok" style="margin-top:14px;">
+    <strong>Why Python 3.9?</strong> LabVIEW 2021+ Python Node requires Python 3.x. Python 3.9 is the most stable and widely compatible version for LabVIEW integration.
+  </div>
+
+  <!-- ── System Requirements ── -->
+  <h2>2. System Requirements</h2>
+  <table>
+    <thead><tr><th>Item</th><th>Requirement</th></tr></thead>
+    <tbody>
+      <tr><td>Operating System</td><td>Windows 10 / 11 (64-bit)</td></tr>
+      <tr><td>Python Version</td><td>3.9.x (64-bit) — <strong>not 32-bit</strong></td></tr>
+      <tr><td>LabVIEW</td><td>2021 or later</td></tr>
+      <tr><td>Internet</td><td>Required during dependency install</td></tr>
+      <tr><td>Disk Space</td><td>~500 MB for Python + packages</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ── Step 1: Download ── -->
+  <h2>3. Step-by-Step Installation</h2>
+
+  <h3>Step 1 — Download Python 3.9.13 (64-bit)</h3>
+  <ol class="steps">
+    <li>
+      <div class="step-body">
+        <strong>Open the official Python download page</strong>
+        <p>Go to: <a href="https://www.python.org/downloads/release/python-3913/" target="_blank">https://www.python.org/downloads/release/python-3913/</a></p>
+        <a class="download-link" href="https://www.python.org/ftp/python/3.9.13/python-3.9.13-amd64.exe" target="_blank">⬇ Download Python 3.9.13 (64-bit)</a>
+      </div>
+    </li>
+    <li>
+      <div class="step-body">
+        <strong>Select the correct installer</strong>
+        <p>Scroll to the <em>Files</em> section at the bottom of the page and click:</p>
+        <code>Windows installer (64-bit)</code> — file name: <code>python-3.9.13-amd64.exe</code>
+      </div>
+    </li>
+  </ol>
+
+  <h3>Step 2 — Run the Installer</h3>
+  <ol class="steps">
+    <li>
+      <div class="step-body">
+        <strong>Double-click the downloaded installer</strong>
+        <p>The installer window will open.</p>
+      </div>
+    </li>
+    <li>
+      <div class="step-body">
+        <strong>Check "Add Python 3.9 to PATH"</strong>
+        <p>At the bottom of the first installer screen, make sure this checkbox is <strong>checked</strong> before clicking Install.</p>
+        <div class="box warn">
+          ⚠ If you skip this step, Python will not be found by LabVIEW or the CMD setup file.
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="step-body">
+        <strong>Click "Install Now"</strong>
+        <p>Wait for the installation to complete (about 2–3 minutes).</p>
+      </div>
+    </li>
+    <li>
+      <div class="step-body">
+        <strong>Click "Disable path length limit" (if prompted)</strong>
+        <p>If a final screen asks to disable Windows path length limit — click it. This avoids issues with long file paths.</p>
+      </div>
+    </li>
+    <li>
+      <div class="step-body">
+        <strong>Click "Close"</strong>
+        <p>Installation is complete.</p>
+      </div>
+    </li>
+  </ol>
+
+  <h3>Step 3 — Verify Python Installation</h3>
+  <ol class="steps">
+    <li>
+      <div class="step-body">
+        <strong>Open Command Prompt</strong>
+        <p>Press <code>Win + R</code>, type <code>cmd</code>, press Enter.</p>
+      </div>
+    </li>
+    <li>
+      <div class="step-body">
+        <strong>Run the version check</strong>
+        <pre>python --version</pre>
+        <p>Expected output:</p>
+        <pre>Python 3.9.13</pre>
+        <div class="box ok">If you see this — Python is correctly installed and on PATH.</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-body">
+        <strong>Verify it is 64-bit</strong>
+        <pre>python -c "import platform; print(platform.architecture())"</pre>
+        <p>Expected output:</p>
+        <pre>('64bit', 'WindowsPE')</pre>
+      </div>
+    </li>
+  </ol>
+
+  <!-- ── Dependencies ── -->
+  <h2>4. Required Python Packages</h2>
+  <p>The following packages must be installed for <code>tdms_report.py</code> to work:</p>
+  <table>
+    <thead>
+      <tr><th>Package</th><th>Version</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>numpy</code></td><td>Latest</td><td>Numerical data processing and statistics</td></tr>
+      <tr><td><code>matplotlib</code></td><td>Latest</td><td>PDF chart and figure generation</td></tr>
+      <tr><td><code>scipy</code></td><td>Latest</td><td>Advanced statistics (skewness, kurtosis)</td></tr>
+      <tr><td><code>nptdms</code></td><td>Latest</td><td>Read NI TDMS data files</td></tr>
+      <tr><td><code>Pillow</code></td><td>Latest</td><td>Logo / image loading for PDF header</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ── CMD Setup ── -->
+  <h2>5. Automatic Setup Using CMD File</h2>
+  <p>A batch script <code>setup_dependencies.cmd</code> is provided. It automatically installs all packages in one step.</p>
+
+  <ol class="steps">
+    <li>
+      <div class="step-body">
+        <strong>Copy <code>setup_dependencies.cmd</code> to your project folder</strong>
+        <p>For example: <code>D:\Projects\Software Repo\LAB-IQ 150\WO 2476\v04\Report Loop\</code></p>
+      </div>
+    </li>
+    <li>
+      <div class="step-body">
+        <strong>Right-click → "Run as Administrator"</strong>
+        <p>This ensures pip can write to Python's site-packages directory.</p>
+        <div class="box warn">⚠ Always run the CMD file as Administrator to avoid permission errors.</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-body">
+        <strong>Watch the output — you will see each package being installed</strong>
+        <pre>
+[1/6] Upgrading pip...
+[2/6] Installing numpy...
+[3/6] Installing matplotlib...
+[4/6] Installing scipy...
+[5/6] Installing nptdms...
+[6/6] Installing Pillow...
+
+[OK] numpy         1.26.4
+[OK] matplotlib    3.8.4
+[OK] scipy         1.13.0
+[OK] nptdms        0.12.0
+[OK] Pillow        10.3.0
+        </pre>
+      </div>
+    </li>
+    <li>
+      <div class="step-body">
+        <strong>Press any key to close</strong>
+        <p>All packages are now installed and ready to use.</p>
+      </div>
+    </li>
+  </ol>
+
+  <!-- ── Manual install ── -->
+  <h2>6. Manual Installation (Alternative)</h2>
+  <p>If you prefer to install packages manually, open Command Prompt and run each command:</p>
+  <pre>python -m pip install --upgrade pip
+python -m pip install numpy
+python -m pip install matplotlib
+python -m pip install scipy
+python -m pip install nptdms
+python -m pip install Pillow</pre>
+
+  <!-- ── LabVIEW Config ── -->
+  <h2>7. LabVIEW Python Node Configuration</h2>
+  <table>
+    <thead><tr><th>Setting</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>Python Version</td><td>3.9</td></tr>
+      <tr>
+        <td>Python Path</td>
+        <td><code>C:\Users\Admin\AppData\Local\Programs\Python\Python39\python.exe</code></td>
+      </tr>
+      <tr><td>Module Path</td><td><code>D:\...\Report Loop\tdms_report.py</code></td></tr>
+      <tr><td>Function Name</td><td><code>generate_report_12args</code> or <code>generate_report_simple</code></td></tr>
+      <tr><td>Return Type</td><td>String</td></tr>
+      <tr><td>All Parameters</td><td>String (for each input)</td></tr>
+    </tbody>
+  </table>
+  <div class="box">
+    To find your exact Python path, run in CMD: <code>where python</code>
+  </div>
+
+  <!-- ── Troubleshooting ── -->
+  <h2>8. Troubleshooting</h2>
+  <table>
+    <thead><tr><th>Error</th><th>Cause</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>python is not recognized</code></td>
+        <td>Python not on PATH</td>
+        <td>Reinstall and check "Add Python to PATH"</td>
+      </tr>
+      <tr>
+        <td><code>ModuleNotFoundError: nptdms</code></td>
+        <td>Package not installed</td>
+        <td>Run <code>setup_dependencies.cmd</code> as Administrator</td>
+      </tr>
+      <tr>
+        <td>LabVIEW Python Node error at index 0</td>
+        <td>Parameter count mismatch</td>
+        <td>Use <code>generate_report_simple</code> which accepts any number of args</td>
+      </tr>
+      <tr>
+        <td><code>UnicodeEncodeError: charmap</code></td>
+        <td>Non-ASCII character in log file</td>
+        <td>Already fixed in latest <code>tdms_report.py</code></td>
+      </tr>
+      <tr>
+        <td>Report generated but no logos visible</td>
+        <td>Logo path incorrect or file not found</td>
+        <td>Use full absolute path e.g. <code>C:\Logos\company.png</code></td>
+      </tr>
+      <tr>
+        <td>LabVIEW uses wrong Python version</td>
+        <td>Multiple Python versions installed</td>
+        <td>Set Python Path explicitly in LabVIEW Python Session open</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── Footer ── -->
+  <div class="doc-footer">
+    <p>SETUP-TDMS-001 &nbsp;|&nbsp; Rev A &nbsp;|&nbsp; For use with tdms_report.py &nbsp;|&nbsp; Python 3.9.x 64-bit</p>
+  </div>
+
+</div>
+</body>
+</html>
