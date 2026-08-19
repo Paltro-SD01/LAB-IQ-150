@@ -1,5 +1,7 @@
-🕒 Timestamp: 2026-08-19 18:55:26 +0530
-💬 Comment: Merge branch 'main' of github.com:Paltro-SD01/LAB-IQ-150
+🕒 Timestamp: 2026-08-19 19:08:48 +0530
+💬 Comment: Enhance commit log workflow with deeper fetch depth
+
+Updated fetch depth to 10 for better commit history access and modified the script to extract commit information from the latest non-merge commit.
 ---------------------------------
 📁 Files Changed:
-
+.github/workflows/log_changes.yml
