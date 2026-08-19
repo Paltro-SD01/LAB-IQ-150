@@ -1,0 +1,41 @@
+name: Generate Push Log
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-log-file:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Extract Commit Info and Create File
+        run: |
+          TIMESTAMP=$(git log -1 --format="%cd" --date=iso)
+          COMMENT=$(git log -1 --format="%B")
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          
+          echo "🕒 Timestamp: $TIMESTAMP" > latest_commit_log.txt
+          echo "💬 Comment: $COMMENT" >> latest_commit_log.txt
+          echo "---------------------------------" >> latest_commit_log.txt
+          echo "📁 Files Changed:" >> latest_commit_log.txt
+          echo "$CHANGED_FILES" >> latest_commit_log.txt
+
+      - name: Commit and Push Log File
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # FIXED: Added -f to force Git to add the ignored file
+          git add -f latest_commit_log.txt
+          
+          git commit -m "docs: Auto-update commit log [skip ci]" || echo "No changes to commit"
+          git push
