@@ -1,7 +1,111 @@
-🕒 Timestamp: 2026-08-19 19:08:48 +0530
-💬 Comment: Enhance commit log workflow with deeper fetch depth
-
-Updated fetch depth to 10 for better commit history access and modified the script to extract commit information from the latest non-merge commit.
+🕒 Timestamp: 2026-08-19 21:58:26 +0530
+💬 Comment: LOGIC FOR HEAVE CHANGED.
 ---------------------------------
 📁 Files Changed:
-.github/workflows/log_changes.yml
+WO 2476/v04/Acquostics Loops/Acoustic Reinitize.vi
+WO 2476/v04/Acquostics Loops/Acq Gain Selection.vi
+WO 2476/v04/Acquostics Loops/Acq Read Loop.vi
+WO 2476/v04/Acquostics Loops/Acq Write Loop.vi
+WO 2476/v04/Acquostics Loops/Acq start.vi
+WO 2476/v04/Acquostics Loops/Acq stop.vi
+WO 2476/v04/Analysis File/Data Log Refresh.vi
+WO 2476/v04/Analysis File/Export file.vi
+WO 2476/v04/Analysis File/FILE READ to export.vi
+WO 2476/v04/Configuraton Files/DATA ENCRYPT STRING FILE WRITE.vi
+WO 2476/v04/Configuraton Files/Read Config Unitest.vi
+WO 2476/v04/Configuraton Files/Write Config Unitest.vi
+WO 2476/v04/HEAVE vi's/HEAVE READ FGV.vi
+WO 2476/v04/HEAVE vi's/HEAVE READ.vi
+WO 2476/v04/HEAVE vi's/HEAVE WRITE FGV.vi
+WO 2476/v04/HEAVE vi's/Heave Down Main.vi
+WO 2476/v04/HEAVE vi's/Heave Down Motion Module.vi
+WO 2476/v04/HEAVE vi's/Heave Init.vi
+WO 2476/v04/HEAVE vi's/Heave Place Module.vi
+WO 2476/v04/HEAVE vi's/Heave Reinitial.vi
+WO 2476/v04/HEAVE vi's/Heave Up Main.vi
+WO 2476/v04/HEAVE vi's/Heave Up Motion Module.vi
+WO 2476/v04/HEAVE vi's/JOG LIMIT.vi
+WO 2476/v04/LOAD CELL CODE/LOAD CELL FGV MAIN.vi
+WO 2476/v04/LOAD CELL CODE/LOAD CELL READ.vi
+WO 2476/v04/LOAD CELL CODE/LOAD SELECTION MAIN CODE.vi
+WO 2476/v04/LOAD CELL CODE/Load Commiunication Error.vi
+WO 2476/v04/LOAD CELL CODE/NEW LOAD CELL PID.vi
+WO 2476/v04/LOAD CELL CODE/PID UNLOAD.vi
+WO 2476/v04/LOAD CELL CODE/PID stop.vi
+WO 2476/v04/LOAD CELL CODE/SET LOAD PARAMETERS.vi
+WO 2476/v04/LOAD CELL CODE/STEP LOAD SEQUENCE.vi
+WO 2476/v04/Main Screen vi's/Add  to List Loop.vi
+WO 2476/v04/Main Screen vi's/FILE NAME RECHECK.vi
+WO 2476/v04/Main Screen vi's/File Name Entereed Check.vi
+WO 2476/v04/Main Screen vi's/Init Before Main Screen.vi
+WO 2476/v04/Main Screen vi's/Load Cell Higher Value in Steps.vi
+WO 2476/v04/Main Screen vi's/Load Cell and Susppension Selection Parameter.vi
+WO 2476/v04/Main Screen vi's/Load Trip During Jog.vi
+WO 2476/v04/Main Screen vi's/Main Screen Tab Visible.vi
+WO 2476/v04/Main Screen vi's/Reinitial Parameter After Test.vi
+WO 2476/v04/Main Screen vi's/Reinitial Parameter.vi
+WO 2476/v04/Main Screen vi's/Rotatry Speed Limit Ristriction.vi
+WO 2476/v04/Main Screen vi's/Rotory Module Selection.vi
+WO 2476/v04/Main Screen vi's/STEP LOAD MM_SEC AND RPM CONVERSION.vi
+WO 2476/v04/Main Screen vi's/Scratch Module Selection.vi
+WO 2476/v04/Main Screen vi's/Stage Homing Error Display Status.vi
+WO 2476/v04/Main Screen vi's/Test Start Sequence.vi
+WO 2476/v04/Main Screen vi's/Test Stop.vi
+WO 2476/v04/Main Screen vi's/To Check whether module selected.vi
+WO 2476/v04/Main Screen vi's/TractionModule Selection.vi
+WO 2476/v04/Monitor Loop/Main Monitor Loop.vi
+WO 2476/v04/Monitor Loop/Rotary and Traction Motor Command Send.vi
+WO 2476/v04/Monitor Loop/Sway Check command.vi
+WO 2476/v04/Monitor Loop/Trip Log and Trip Monitor.vi
+WO 2476/v04/Monitor Loop/traction Check command.vi
+WO 2476/v04/Programm Loop/HOMINING.vi
+WO 2476/v04/Programm Loop/Main Program Loop Vi.vi
+WO 2476/v04/Programm Loop/Place Module.vi
+WO 2476/v04/Report Loop/Main Data Log.vi
+WO 2476/v04/Report Loop/REPORT GENERATION FOR PYTHON.vi
+WO 2476/v04/Rotatry Loop/Angular Oscillation Command.vi
+WO 2476/v04/Rotatry Loop/RAMP SPEED.vi
+WO 2476/v04/Rotatry Loop/ROTARY  SELECTION MAIN CODE.vi
+WO 2476/v04/Rotatry Loop/STEP SPEED SEQUENCE.vi
+WO 2476/v04/Rotatry Loop/stribeck Logoc Loop.vi
+WO 2476/v04/SWAY vi's/SWAY HOME.vi
+WO 2476/v04/SWAY vi's/SWAY READ FGV.vi
+WO 2476/v04/SWAY vi's/SWAY READ.vi
+WO 2476/v04/SWAY vi's/SWAY UNIFORM SPEED START.vi
+WO 2476/v04/SWAY vi's/SWAY UNIFORM SPEED STOP.vi
+WO 2476/v04/SWAY vi's/SWAY WRITE FGV.vi
+WO 2476/v04/SWAY vi's/Sway Home Module.vi
+WO 2476/v04/SWAY vi's/Sway Init.vi
+WO 2476/v04/SWAY vi's/Sway Left MM.vi
+WO 2476/v04/SWAY vi's/Sway Left Main.vi
+WO 2476/v04/SWAY vi's/Sway Reinitize.vi
+WO 2476/v04/SWAY vi's/Sway Right MM.vi
+WO 2476/v04/SWAY vi's/Sway Right Main.vi
+WO 2476/v04/SWAY vi's/Sway Stop.vi
+WO 2476/v04/SWAY vi's/Sway wear trac set.vi
+WO 2476/v04/SWAY vi's/Time Out Loop.vi
+WO 2476/v04/Scratch Loop/Main Scratch Module.vi
+WO 2476/v04/Scratch Loop/Scratch Backward for forward.vi
+WO 2476/v04/Scratch Loop/Scratch Backward.vi
+WO 2476/v04/Scratch Loop/Scratch Forward.vi
+WO 2476/v04/Scratch Loop/Surge Forward in Scratch.vi
+WO 2476/v04/Surge vi's/Surge Backward MM.vi
+WO 2476/v04/Surge vi's/Surge Backward Main.vi
+WO 2476/v04/Surge vi's/Surge Forward MM.vi
+WO 2476/v04/Surge vi's/Surge Forward Main.vi
+WO 2476/v04/Surge vi's/Surge Home Module.vi
+WO 2476/v04/Surge vi's/Surge Place Module.vi
+WO 2476/v04/Timeout Loop/Pulse_mm conversion loop.vi
+WO 2476/v04/Traction Loop/Main Traction Receipe Run.vi
+WO 2476/v04/Traction Loop/Reciepe Ball Speed Write.vi
+WO 2476/v04/Traction Loop/Reciepe Disc Speed Write.vi
+WO 2476/v04/Traction Loop/TRACTION HOME.vi
+WO 2476/v04/Traction Loop/TRACTION READ FGV.vi
+WO 2476/v04/Traction Loop/TRACTION READ.vi
+WO 2476/v04/Traction Loop/TRACTION WRITE FGV.vi
+WO 2476/v04/Traction Loop/Test Stop Traction.vi
+WO 2476/v04/Traction Loop/Traction  Init.vi
+WO 2476/v04/Traction Loop/Traction Receipe Main.vi
+WO 2476/v04/Traction Loop/Traction Reinitize.vi
+WO 2476/v04/UNITEST MAIN v2.0.vi
+WO 2476/v04/controls/LAB-IQ UI Data.ctl
