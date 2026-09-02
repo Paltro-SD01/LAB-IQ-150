@@ -26317,3 +26317,442 @@ new file mode 100644
 index 0000000..e69de29
 
 
+=================================
+🕒 Timestamp: 2026-09-02 10:26:50 +0530
+💬 Comment: Traction Code Updated
+---------------------------------
+📁 Files Changed:
+WO 2476/v05/LOAD CELL CODE/New Logic/NEW Load Cell FGV.vi
+WO 2476/v06/controls/LAB-IQ UI Data.ctl
+WO 2476/v07/Acquostics Loops/Acoustic Reinitize.vi
+WO 2476/v07/Acquostics Loops/Acq Gain Selection.vi
+WO 2476/v07/Acquostics Loops/Acq Read Loop.vi
+WO 2476/v07/Acquostics Loops/Acq Write Loop.vi
+WO 2476/v07/Acquostics Loops/Acq start.vi
+WO 2476/v07/Acquostics Loops/Acq stop.vi
+WO 2476/v07/Analysis File/Data Log Refresh.vi
+WO 2476/v07/Analysis File/Export file.vi
+WO 2476/v07/Analysis File/FILE READ to export.vi
+WO 2476/v07/Configuraton Files/DATA ENCRYPT STRING FILE WRITE.vi
+WO 2476/v07/Configuraton Files/Read Config Unitest.vi
+WO 2476/v07/Configuraton Files/Write Config Unitest.vi
+WO 2476/v07/HEAVE vi's/HEAVE READ FGV.vi
+WO 2476/v07/HEAVE vi's/HEAVE WRITE FGV.vi
+WO 2476/v07/HEAVE vi's/Heave Down Main.vi
+WO 2476/v07/HEAVE vi's/Heave Down Motion Module.vi
+WO 2476/v07/HEAVE vi's/Heave Init.vi
+WO 2476/v07/HEAVE vi's/Heave Place Module.vi
+WO 2476/v07/HEAVE vi's/Heave Reinitial.vi
+WO 2476/v07/HEAVE vi's/Heave Up Main.vi
+WO 2476/v07/HEAVE vi's/Heave Up Motion Module.vi
+WO 2476/v07/HEAVE vi's/JOG LIMIT.vi
+WO 2476/v07/LOAD CELL CODE/LOAD CELL READ.vi
+WO 2476/v07/LOAD CELL CODE/LOAD MIN AND MAX RAMP.vi
+WO 2476/v07/LOAD CELL CODE/LOAD SELECTION MAIN CODE.vi
+WO 2476/v07/LOAD CELL CODE/Load Commiunication Error.vi
+WO 2476/v07/LOAD CELL CODE/NEW LOAD CELL PID.vi
+WO 2476/v07/LOAD CELL CODE/PID UNLOAD.vi
+WO 2476/v07/LOAD CELL CODE/PID stop.vi
+WO 2476/v07/LOAD CELL CODE/Reinitialise Load cell after Error.vi
+WO 2476/v07/LOAD CELL CODE/SET LOAD PARAMETERS.vi
+WO 2476/v07/LOAD CELL CODE/STEP LOAD SEQUENCE.vi
+WO 2476/v07/Main Screen vi's/Add  to List Loop.vi
+WO 2476/v07/Main Screen vi's/FILE NAME RECHECK.vi
+WO 2476/v07/Main Screen vi's/File Name Entereed Check.vi
+WO 2476/v07/Main Screen vi's/Init Before Main Screen.vi
+WO 2476/v07/Main Screen vi's/Load Cell Higher Value in Steps.vi
+WO 2476/v07/Main Screen vi's/Load Cell and Susppension Selection Parameter.vi
+WO 2476/v07/Main Screen vi's/Load Trip During Jog.vi
+WO 2476/v07/Main Screen vi's/Main Screen Tab Visible.vi
+WO 2476/v07/Main Screen vi's/Reinitial Parameter After Test.vi
+WO 2476/v07/Main Screen vi's/Reinitial Parameter.vi
+WO 2476/v07/Main Screen vi's/Rotatry Speed Limit Ristriction.vi
+WO 2476/v07/Main Screen vi's/Rotory Module Selection.vi
+WO 2476/v07/Main Screen vi's/STEP LOAD MM_SEC AND RPM CONVERSION.vi
+WO 2476/v07/Main Screen vi's/Scratch Module Selection.vi
+WO 2476/v07/Main Screen vi's/Stage Homing Error Display Status.vi
+WO 2476/v07/Main Screen vi's/Test Start Sequence.vi
+WO 2476/v07/Main Screen vi's/Test Stop.vi
+WO 2476/v07/Main Screen vi's/To Check whether module selected.vi
+WO 2476/v07/Main Screen vi's/TractionModule Selection.vi
+WO 2476/v07/Monitor Loop/Main Monitor Loop.vi
+WO 2476/v07/Monitor Loop/Rotary and Traction Motor Command Send.vi
+WO 2476/v07/Monitor Loop/Sway Check command.vi
+WO 2476/v07/Monitor Loop/Trip Log and Trip Monitor.vi
+WO 2476/v07/Monitor Loop/traction Check command.vi
+WO 2476/v07/Programm Loop/HOMINING.vi
+WO 2476/v07/Programm Loop/Main Program Loop Vi.vi
+WO 2476/v07/Programm Loop/Place Module.vi
+WO 2476/v07/Report Loop/Main Data Log.vi
+WO 2476/v07/Report Loop/REPORT GENERATION FOR PYTHON.vi
+WO 2476/v07/Rotatry Loop/Angular Oscillation Command.vi
+WO 2476/v07/Rotatry Loop/RAMP SPEED.vi
+WO 2476/v07/Rotatry Loop/ROTARY  SELECTION MAIN CODE.vi
+WO 2476/v07/Rotatry Loop/STEP SPEED SEQUENCE.vi
+WO 2476/v07/Rotatry Loop/stribeck Logoc Loop.vi
+WO 2476/v07/SWAY vi's/SWAY HOME.vi
+WO 2476/v07/SWAY vi's/SWAY READ FGV.vi
+WO 2476/v07/SWAY vi's/SWAY UNIFORM SPEED START.vi
+WO 2476/v07/SWAY vi's/SWAY UNIFORM SPEED STOP.vi
+WO 2476/v07/SWAY vi's/SWAY WRITE FGV.vi
+WO 2476/v07/SWAY vi's/Sway Home Module.vi
+WO 2476/v07/SWAY vi's/Sway Init.vi
+WO 2476/v07/SWAY vi's/Sway Left MM.vi
+WO 2476/v07/SWAY vi's/Sway Left Main.vi
+WO 2476/v07/SWAY vi's/Sway Reinitize.vi
+WO 2476/v07/SWAY vi's/Sway Right MM.vi
+WO 2476/v07/SWAY vi's/Sway Right Main.vi
+WO 2476/v07/SWAY vi's/Sway Stop.vi
+WO 2476/v07/SWAY vi's/Sway wear trac set.vi
+WO 2476/v07/SWAY vi's/Time Out Loop.vi
+WO 2476/v07/Scratch Loop/Main Scratch Module.vi
+WO 2476/v07/Scratch Loop/Scratch Backward for forward.vi
+WO 2476/v07/Scratch Loop/Scratch Backward.vi
+WO 2476/v07/Scratch Loop/Scratch Forward.vi
+WO 2476/v07/Scratch Loop/Surge Forward in Scratch.vi
+WO 2476/v07/Surge vi's/Surge Backward MM.vi
+WO 2476/v07/Surge vi's/Surge Backward Main.vi
+WO 2476/v07/Surge vi's/Surge Forward MM.vi
+WO 2476/v07/Surge vi's/Surge Forward Main.vi
+WO 2476/v07/Surge vi's/Surge Home Module.vi
+WO 2476/v07/Surge vi's/Surge Place Module.vi
+WO 2476/v07/Timeout Loop/Pulse_mm conversion loop.vi
+WO 2476/v07/Traction Loop/Main Traction Receipe Run.vi
+WO 2476/v07/Traction Loop/Reciepe Ball Speed Write.vi
+WO 2476/v07/Traction Loop/Reciepe Disc Speed Write.vi
+WO 2476/v07/Traction Loop/TRACTION HOME.vi
+WO 2476/v07/Traction Loop/TRACTION READ FGV.vi
+WO 2476/v07/Traction Loop/TRACTION WRITE FGV.vi
+WO 2476/v07/Traction Loop/Test Stop Traction.vi
+WO 2476/v07/Traction Loop/Traction  Init.vi
+WO 2476/v07/Traction Loop/Traction Receipe Main.vi
+WO 2476/v07/Traction Loop/Traction Reinitize.vi
+WO 2476/v07/Traction Loop/Traction Time Calculation.vi
+WO 2476/v07/UNITEST MAIN v2.0.vi
+---------------------------------
+📝 Actual Changes Made:
+diff --git a/WO 2476/v05/LOAD CELL CODE/New Logic/NEW Load Cell FGV.vi b/WO 2476/v05/LOAD CELL CODE/New Logic/NEW Load Cell FGV.vi
+index 6d505f4..7cc7694 100644
+Binary files a/WO 2476/v05/LOAD CELL CODE/New Logic/NEW Load Cell FGV.vi and b/WO 2476/v05/LOAD CELL CODE/New Logic/NEW Load Cell FGV.vi differ
+diff --git a/WO 2476/v06/controls/LAB-IQ UI Data.ctl b/WO 2476/v06/controls/LAB-IQ UI Data.ctl
+index 1818a56..50b5eb9 100644
+Binary files a/WO 2476/v06/controls/LAB-IQ UI Data.ctl and b/WO 2476/v06/controls/LAB-IQ UI Data.ctl differ
+diff --git a/WO 2476/v07/Acquostics Loops/Acoustic Reinitize.vi b/WO 2476/v07/Acquostics Loops/Acoustic Reinitize.vi
+index 920e7d3..87ed10a 100644
+Binary files a/WO 2476/v07/Acquostics Loops/Acoustic Reinitize.vi and b/WO 2476/v07/Acquostics Loops/Acoustic Reinitize.vi differ
+diff --git a/WO 2476/v07/Acquostics Loops/Acq Gain Selection.vi b/WO 2476/v07/Acquostics Loops/Acq Gain Selection.vi
+index 629bc4c..7cf8792 100644
+Binary files a/WO 2476/v07/Acquostics Loops/Acq Gain Selection.vi and b/WO 2476/v07/Acquostics Loops/Acq Gain Selection.vi differ
+diff --git a/WO 2476/v07/Acquostics Loops/Acq Read Loop.vi b/WO 2476/v07/Acquostics Loops/Acq Read Loop.vi
+index f6aefad..b3822c5 100644
+Binary files a/WO 2476/v07/Acquostics Loops/Acq Read Loop.vi and b/WO 2476/v07/Acquostics Loops/Acq Read Loop.vi differ
+diff --git a/WO 2476/v07/Acquostics Loops/Acq Write Loop.vi b/WO 2476/v07/Acquostics Loops/Acq Write Loop.vi
+index 6495e48..22cd913 100644
+Binary files a/WO 2476/v07/Acquostics Loops/Acq Write Loop.vi and b/WO 2476/v07/Acquostics Loops/Acq Write Loop.vi differ
+diff --git a/WO 2476/v07/Acquostics Loops/Acq start.vi b/WO 2476/v07/Acquostics Loops/Acq start.vi
+index 9366d91..bdff39f 100644
+Binary files a/WO 2476/v07/Acquostics Loops/Acq start.vi and b/WO 2476/v07/Acquostics Loops/Acq start.vi differ
+diff --git a/WO 2476/v07/Acquostics Loops/Acq stop.vi b/WO 2476/v07/Acquostics Loops/Acq stop.vi
+index ce5e809..bc153df 100644
+Binary files a/WO 2476/v07/Acquostics Loops/Acq stop.vi and b/WO 2476/v07/Acquostics Loops/Acq stop.vi differ
+diff --git a/WO 2476/v07/Analysis File/Data Log Refresh.vi b/WO 2476/v07/Analysis File/Data Log Refresh.vi
+index 22694f9..26f07ad 100644
+Binary files a/WO 2476/v07/Analysis File/Data Log Refresh.vi and b/WO 2476/v07/Analysis File/Data Log Refresh.vi differ
+diff --git a/WO 2476/v07/Analysis File/Export file.vi b/WO 2476/v07/Analysis File/Export file.vi
+index 98c5d7d..dd7d9b8 100644
+Binary files a/WO 2476/v07/Analysis File/Export file.vi and b/WO 2476/v07/Analysis File/Export file.vi differ
+diff --git a/WO 2476/v07/Analysis File/FILE READ to export.vi b/WO 2476/v07/Analysis File/FILE READ to export.vi
+index 653e717..81b4203 100644
+Binary files a/WO 2476/v07/Analysis File/FILE READ to export.vi and b/WO 2476/v07/Analysis File/FILE READ to export.vi differ
+diff --git a/WO 2476/v07/Configuraton Files/DATA ENCRYPT STRING FILE WRITE.vi b/WO 2476/v07/Configuraton Files/DATA ENCRYPT STRING FILE WRITE.vi
+index 2241997..496c7e3 100644
+Binary files a/WO 2476/v07/Configuraton Files/DATA ENCRYPT STRING FILE WRITE.vi and b/WO 2476/v07/Configuraton Files/DATA ENCRYPT STRING FILE WRITE.vi differ
+diff --git a/WO 2476/v07/Configuraton Files/Read Config Unitest.vi b/WO 2476/v07/Configuraton Files/Read Config Unitest.vi
+index c254668..873f1b9 100644
+Binary files a/WO 2476/v07/Configuraton Files/Read Config Unitest.vi and b/WO 2476/v07/Configuraton Files/Read Config Unitest.vi differ
+diff --git a/WO 2476/v07/Configuraton Files/Write Config Unitest.vi b/WO 2476/v07/Configuraton Files/Write Config Unitest.vi
+index 25e89f9..d03140e 100644
+Binary files a/WO 2476/v07/Configuraton Files/Write Config Unitest.vi and b/WO 2476/v07/Configuraton Files/Write Config Unitest.vi differ
+diff --git a/WO 2476/v07/HEAVE vi's/HEAVE READ FGV.vi b/WO 2476/v07/HEAVE vi's/HEAVE READ FGV.vi
+index 715930d..e03446a 100644
+Binary files a/WO 2476/v07/HEAVE vi's/HEAVE READ FGV.vi and b/WO 2476/v07/HEAVE vi's/HEAVE READ FGV.vi differ
+diff --git a/WO 2476/v07/HEAVE vi's/HEAVE WRITE FGV.vi b/WO 2476/v07/HEAVE vi's/HEAVE WRITE FGV.vi
+index 818aa94..d48c044 100644
+Binary files a/WO 2476/v07/HEAVE vi's/HEAVE WRITE FGV.vi and b/WO 2476/v07/HEAVE vi's/HEAVE WRITE FGV.vi differ
+diff --git a/WO 2476/v07/HEAVE vi's/Heave Down Main.vi b/WO 2476/v07/HEAVE vi's/Heave Down Main.vi
+index 91806a4..87e3361 100644
+Binary files a/WO 2476/v07/HEAVE vi's/Heave Down Main.vi and b/WO 2476/v07/HEAVE vi's/Heave Down Main.vi differ
+diff --git a/WO 2476/v07/HEAVE vi's/Heave Down Motion Module.vi b/WO 2476/v07/HEAVE vi's/Heave Down Motion Module.vi
+index 09488ba..5de84fe 100644
+Binary files a/WO 2476/v07/HEAVE vi's/Heave Down Motion Module.vi and b/WO 2476/v07/HEAVE vi's/Heave Down Motion Module.vi differ
+diff --git a/WO 2476/v07/HEAVE vi's/Heave Init.vi b/WO 2476/v07/HEAVE vi's/Heave Init.vi
+index d8d2567..207adc1 100644
+Binary files a/WO 2476/v07/HEAVE vi's/Heave Init.vi and b/WO 2476/v07/HEAVE vi's/Heave Init.vi differ
+diff --git a/WO 2476/v07/HEAVE vi's/Heave Place Module.vi b/WO 2476/v07/HEAVE vi's/Heave Place Module.vi
+index e7e15bd..7fe1465 100644
+Binary files a/WO 2476/v07/HEAVE vi's/Heave Place Module.vi and b/WO 2476/v07/HEAVE vi's/Heave Place Module.vi differ
+diff --git a/WO 2476/v07/HEAVE vi's/Heave Reinitial.vi b/WO 2476/v07/HEAVE vi's/Heave Reinitial.vi
+index ee2e293..f70e1a8 100644
+Binary files a/WO 2476/v07/HEAVE vi's/Heave Reinitial.vi and b/WO 2476/v07/HEAVE vi's/Heave Reinitial.vi differ
+diff --git a/WO 2476/v07/HEAVE vi's/Heave Up Main.vi b/WO 2476/v07/HEAVE vi's/Heave Up Main.vi
+index 1e8dbb9..da8b761 100644
+Binary files a/WO 2476/v07/HEAVE vi's/Heave Up Main.vi and b/WO 2476/v07/HEAVE vi's/Heave Up Main.vi differ
+diff --git a/WO 2476/v07/HEAVE vi's/Heave Up Motion Module.vi b/WO 2476/v07/HEAVE vi's/Heave Up Motion Module.vi
+index 67e414b..d161dfc 100644
+Binary files a/WO 2476/v07/HEAVE vi's/Heave Up Motion Module.vi and b/WO 2476/v07/HEAVE vi's/Heave Up Motion Module.vi differ
+diff --git a/WO 2476/v07/HEAVE vi's/JOG LIMIT.vi b/WO 2476/v07/HEAVE vi's/JOG LIMIT.vi
+index 7892b9b..ab76808 100644
+Binary files a/WO 2476/v07/HEAVE vi's/JOG LIMIT.vi and b/WO 2476/v07/HEAVE vi's/JOG LIMIT.vi differ
+diff --git a/WO 2476/v07/LOAD CELL CODE/LOAD CELL READ.vi b/WO 2476/v07/LOAD CELL CODE/LOAD CELL READ.vi
+index 57ce9d3..40a60d1 100644
+Binary files a/WO 2476/v07/LOAD CELL CODE/LOAD CELL READ.vi and b/WO 2476/v07/LOAD CELL CODE/LOAD CELL READ.vi differ
+diff --git a/WO 2476/v07/LOAD CELL CODE/LOAD MIN AND MAX RAMP.vi b/WO 2476/v07/LOAD CELL CODE/LOAD MIN AND MAX RAMP.vi
+new file mode 100644
+index 0000000..0f54339
+Binary files /dev/null and b/WO 2476/v07/LOAD CELL CODE/LOAD MIN AND MAX RAMP.vi differ
+diff --git a/WO 2476/v07/LOAD CELL CODE/LOAD SELECTION MAIN CODE.vi b/WO 2476/v07/LOAD CELL CODE/LOAD SELECTION MAIN CODE.vi
+index 14c8ba4..666154e 100644
+Binary files a/WO 2476/v07/LOAD CELL CODE/LOAD SELECTION MAIN CODE.vi and b/WO 2476/v07/LOAD CELL CODE/LOAD SELECTION MAIN CODE.vi differ
+diff --git a/WO 2476/v07/LOAD CELL CODE/Load Commiunication Error.vi b/WO 2476/v07/LOAD CELL CODE/Load Commiunication Error.vi
+index f6913f8..db896d1 100644
+Binary files a/WO 2476/v07/LOAD CELL CODE/Load Commiunication Error.vi and b/WO 2476/v07/LOAD CELL CODE/Load Commiunication Error.vi differ
+diff --git a/WO 2476/v07/LOAD CELL CODE/NEW LOAD CELL PID.vi b/WO 2476/v07/LOAD CELL CODE/NEW LOAD CELL PID.vi
+index 743249f..20e4092 100644
+Binary files a/WO 2476/v07/LOAD CELL CODE/NEW LOAD CELL PID.vi and b/WO 2476/v07/LOAD CELL CODE/NEW LOAD CELL PID.vi differ
+diff --git a/WO 2476/v07/LOAD CELL CODE/PID UNLOAD.vi b/WO 2476/v07/LOAD CELL CODE/PID UNLOAD.vi
+index baf282b..b97b6e4 100644
+Binary files a/WO 2476/v07/LOAD CELL CODE/PID UNLOAD.vi and b/WO 2476/v07/LOAD CELL CODE/PID UNLOAD.vi differ
+diff --git a/WO 2476/v07/LOAD CELL CODE/PID stop.vi b/WO 2476/v07/LOAD CELL CODE/PID stop.vi
+index bb6b75e..be6d102 100644
+Binary files a/WO 2476/v07/LOAD CELL CODE/PID stop.vi and b/WO 2476/v07/LOAD CELL CODE/PID stop.vi differ
+diff --git a/WO 2476/v07/LOAD CELL CODE/Reinitialise Load cell after Error.vi b/WO 2476/v07/LOAD CELL CODE/Reinitialise Load cell after Error.vi
+index 4b3c214..9ecc176 100644
+Binary files a/WO 2476/v07/LOAD CELL CODE/Reinitialise Load cell after Error.vi and b/WO 2476/v07/LOAD CELL CODE/Reinitialise Load cell after Error.vi differ
+diff --git a/WO 2476/v07/LOAD CELL CODE/SET LOAD PARAMETERS.vi b/WO 2476/v07/LOAD CELL CODE/SET LOAD PARAMETERS.vi
+index 7a43cf4..9ed108f 100644
+Binary files a/WO 2476/v07/LOAD CELL CODE/SET LOAD PARAMETERS.vi and b/WO 2476/v07/LOAD CELL CODE/SET LOAD PARAMETERS.vi differ
+diff --git a/WO 2476/v07/LOAD CELL CODE/STEP LOAD SEQUENCE.vi b/WO 2476/v07/LOAD CELL CODE/STEP LOAD SEQUENCE.vi
+index 5907794..c1cecb8 100644
+Binary files a/WO 2476/v07/LOAD CELL CODE/STEP LOAD SEQUENCE.vi and b/WO 2476/v07/LOAD CELL CODE/STEP LOAD SEQUENCE.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Add  to List Loop.vi b/WO 2476/v07/Main Screen vi's/Add  to List Loop.vi
+index 4e9c26c..5d5b6d7 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Add  to List Loop.vi and b/WO 2476/v07/Main Screen vi's/Add  to List Loop.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/FILE NAME RECHECK.vi b/WO 2476/v07/Main Screen vi's/FILE NAME RECHECK.vi
+index 3b1ee1e..65d7adc 100644
+Binary files a/WO 2476/v07/Main Screen vi's/FILE NAME RECHECK.vi and b/WO 2476/v07/Main Screen vi's/FILE NAME RECHECK.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/File Name Entereed Check.vi b/WO 2476/v07/Main Screen vi's/File Name Entereed Check.vi
+index 12dd54d..75fef5d 100644
+Binary files a/WO 2476/v07/Main Screen vi's/File Name Entereed Check.vi and b/WO 2476/v07/Main Screen vi's/File Name Entereed Check.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Init Before Main Screen.vi b/WO 2476/v07/Main Screen vi's/Init Before Main Screen.vi
+index a23825a..c96ef9b 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Init Before Main Screen.vi and b/WO 2476/v07/Main Screen vi's/Init Before Main Screen.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Load Cell Higher Value in Steps.vi b/WO 2476/v07/Main Screen vi's/Load Cell Higher Value in Steps.vi
+index bf19cbf..6352951 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Load Cell Higher Value in Steps.vi and b/WO 2476/v07/Main Screen vi's/Load Cell Higher Value in Steps.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Load Cell and Susppension Selection Parameter.vi b/WO 2476/v07/Main Screen vi's/Load Cell and Susppension Selection Parameter.vi
+index 6e39564..35062a5 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Load Cell and Susppension Selection Parameter.vi and b/WO 2476/v07/Main Screen vi's/Load Cell and Susppension Selection Parameter.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Load Trip During Jog.vi b/WO 2476/v07/Main Screen vi's/Load Trip During Jog.vi
+index 2a734f5..ca64e5a 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Load Trip During Jog.vi and b/WO 2476/v07/Main Screen vi's/Load Trip During Jog.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Main Screen Tab Visible.vi b/WO 2476/v07/Main Screen vi's/Main Screen Tab Visible.vi
+index 27125cd..e6db33c 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Main Screen Tab Visible.vi and b/WO 2476/v07/Main Screen vi's/Main Screen Tab Visible.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Reinitial Parameter After Test.vi b/WO 2476/v07/Main Screen vi's/Reinitial Parameter After Test.vi
+index 9f3d2dc..9f99200 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Reinitial Parameter After Test.vi and b/WO 2476/v07/Main Screen vi's/Reinitial Parameter After Test.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Reinitial Parameter.vi b/WO 2476/v07/Main Screen vi's/Reinitial Parameter.vi
+index be3150d..99613aa 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Reinitial Parameter.vi and b/WO 2476/v07/Main Screen vi's/Reinitial Parameter.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Rotatry Speed Limit Ristriction.vi b/WO 2476/v07/Main Screen vi's/Rotatry Speed Limit Ristriction.vi
+index 86e369e..16807e5 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Rotatry Speed Limit Ristriction.vi and b/WO 2476/v07/Main Screen vi's/Rotatry Speed Limit Ristriction.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Rotory Module Selection.vi b/WO 2476/v07/Main Screen vi's/Rotory Module Selection.vi
+index 8fb02f2..108d217 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Rotory Module Selection.vi and b/WO 2476/v07/Main Screen vi's/Rotory Module Selection.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/STEP LOAD MM_SEC AND RPM CONVERSION.vi b/WO 2476/v07/Main Screen vi's/STEP LOAD MM_SEC AND RPM CONVERSION.vi
+index c65c163..6371eaa 100644
+Binary files a/WO 2476/v07/Main Screen vi's/STEP LOAD MM_SEC AND RPM CONVERSION.vi and b/WO 2476/v07/Main Screen vi's/STEP LOAD MM_SEC AND RPM CONVERSION.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Scratch Module Selection.vi b/WO 2476/v07/Main Screen vi's/Scratch Module Selection.vi
+index ff9de21..10e0140 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Scratch Module Selection.vi and b/WO 2476/v07/Main Screen vi's/Scratch Module Selection.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Stage Homing Error Display Status.vi b/WO 2476/v07/Main Screen vi's/Stage Homing Error Display Status.vi
+index 338714f..eb61c1d 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Stage Homing Error Display Status.vi and b/WO 2476/v07/Main Screen vi's/Stage Homing Error Display Status.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Test Start Sequence.vi b/WO 2476/v07/Main Screen vi's/Test Start Sequence.vi
+index f084ef2..87840e0 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Test Start Sequence.vi and b/WO 2476/v07/Main Screen vi's/Test Start Sequence.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Test Stop.vi b/WO 2476/v07/Main Screen vi's/Test Stop.vi
+index 6d33b92..4d654bf 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Test Stop.vi and b/WO 2476/v07/Main Screen vi's/Test Stop.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/To Check whether module selected.vi b/WO 2476/v07/Main Screen vi's/To Check whether module selected.vi
+index 80b90d0..7cf3e87 100644
+Binary files a/WO 2476/v07/Main Screen vi's/To Check whether module selected.vi and b/WO 2476/v07/Main Screen vi's/To Check whether module selected.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/TractionModule Selection.vi b/WO 2476/v07/Main Screen vi's/TractionModule Selection.vi
+index 7311931..0d10308 100644
+Binary files a/WO 2476/v07/Main Screen vi's/TractionModule Selection.vi and b/WO 2476/v07/Main Screen vi's/TractionModule Selection.vi differ
+diff --git a/WO 2476/v07/Monitor Loop/Main Monitor Loop.vi b/WO 2476/v07/Monitor Loop/Main Monitor Loop.vi
+index cd0fd5f..61634bb 100644
+Binary files a/WO 2476/v07/Monitor Loop/Main Monitor Loop.vi and b/WO 2476/v07/Monitor Loop/Main Monitor Loop.vi differ
+diff --git a/WO 2476/v07/Monitor Loop/Rotary and Traction Motor Command Send.vi b/WO 2476/v07/Monitor Loop/Rotary and Traction Motor Command Send.vi
+index 32f704d..8fcb77c 100644
+Binary files a/WO 2476/v07/Monitor Loop/Rotary and Traction Motor Command Send.vi and b/WO 2476/v07/Monitor Loop/Rotary and Traction Motor Command Send.vi differ
+diff --git a/WO 2476/v07/Monitor Loop/Sway Check command.vi b/WO 2476/v07/Monitor Loop/Sway Check command.vi
+index 8ee257f..a7c620b 100644
+Binary files a/WO 2476/v07/Monitor Loop/Sway Check command.vi and b/WO 2476/v07/Monitor Loop/Sway Check command.vi differ
+diff --git a/WO 2476/v07/Monitor Loop/Trip Log and Trip Monitor.vi b/WO 2476/v07/Monitor Loop/Trip Log and Trip Monitor.vi
+index c316f49..7f9ee03 100644
+Binary files a/WO 2476/v07/Monitor Loop/Trip Log and Trip Monitor.vi and b/WO 2476/v07/Monitor Loop/Trip Log and Trip Monitor.vi differ
+diff --git a/WO 2476/v07/Monitor Loop/traction Check command.vi b/WO 2476/v07/Monitor Loop/traction Check command.vi
+index 375e7dd..5a6e958 100644
+Binary files a/WO 2476/v07/Monitor Loop/traction Check command.vi and b/WO 2476/v07/Monitor Loop/traction Check command.vi differ
+diff --git a/WO 2476/v07/Programm Loop/HOMINING.vi b/WO 2476/v07/Programm Loop/HOMINING.vi
+index dc460ab..9b744e2 100644
+Binary files a/WO 2476/v07/Programm Loop/HOMINING.vi and b/WO 2476/v07/Programm Loop/HOMINING.vi differ
+diff --git a/WO 2476/v07/Programm Loop/Main Program Loop Vi.vi b/WO 2476/v07/Programm Loop/Main Program Loop Vi.vi
+index 9dd5be0..0f4f6a1 100644
+Binary files a/WO 2476/v07/Programm Loop/Main Program Loop Vi.vi and b/WO 2476/v07/Programm Loop/Main Program Loop Vi.vi differ
+diff --git a/WO 2476/v07/Programm Loop/Place Module.vi b/WO 2476/v07/Programm Loop/Place Module.vi
+index 52694b1..cab8128 100644
+Binary files a/WO 2476/v07/Programm Loop/Place Module.vi and b/WO 2476/v07/Programm Loop/Place Module.vi differ
+diff --git a/WO 2476/v07/Report Loop/Main Data Log.vi b/WO 2476/v07/Report Loop/Main Data Log.vi
+index f9155ab..8400ccd 100644
+Binary files a/WO 2476/v07/Report Loop/Main Data Log.vi and b/WO 2476/v07/Report Loop/Main Data Log.vi differ
+diff --git a/WO 2476/v07/Report Loop/REPORT GENERATION FOR PYTHON.vi b/WO 2476/v07/Report Loop/REPORT GENERATION FOR PYTHON.vi
+index f020b02..6665455 100644
+Binary files a/WO 2476/v07/Report Loop/REPORT GENERATION FOR PYTHON.vi and b/WO 2476/v07/Report Loop/REPORT GENERATION FOR PYTHON.vi differ
+diff --git a/WO 2476/v07/Rotatry Loop/Angular Oscillation Command.vi b/WO 2476/v07/Rotatry Loop/Angular Oscillation Command.vi
+index 4744206..02243af 100644
+Binary files a/WO 2476/v07/Rotatry Loop/Angular Oscillation Command.vi and b/WO 2476/v07/Rotatry Loop/Angular Oscillation Command.vi differ
+diff --git a/WO 2476/v07/Rotatry Loop/RAMP SPEED.vi b/WO 2476/v07/Rotatry Loop/RAMP SPEED.vi
+index 05d79a3..c173d1d 100644
+Binary files a/WO 2476/v07/Rotatry Loop/RAMP SPEED.vi and b/WO 2476/v07/Rotatry Loop/RAMP SPEED.vi differ
+diff --git a/WO 2476/v07/Rotatry Loop/ROTARY  SELECTION MAIN CODE.vi b/WO 2476/v07/Rotatry Loop/ROTARY  SELECTION MAIN CODE.vi
+index ab13b0c..2b24f23 100644
+Binary files a/WO 2476/v07/Rotatry Loop/ROTARY  SELECTION MAIN CODE.vi and b/WO 2476/v07/Rotatry Loop/ROTARY  SELECTION MAIN CODE.vi differ
+diff --git a/WO 2476/v07/Rotatry Loop/STEP SPEED SEQUENCE.vi b/WO 2476/v07/Rotatry Loop/STEP SPEED SEQUENCE.vi
+index 721fbc0..d1a86fa 100644
+Binary files a/WO 2476/v07/Rotatry Loop/STEP SPEED SEQUENCE.vi and b/WO 2476/v07/Rotatry Loop/STEP SPEED SEQUENCE.vi differ
+diff --git a/WO 2476/v07/Rotatry Loop/stribeck Logoc Loop.vi b/WO 2476/v07/Rotatry Loop/stribeck Logoc Loop.vi
+index 6925646..0119498 100644
+Binary files a/WO 2476/v07/Rotatry Loop/stribeck Logoc Loop.vi and b/WO 2476/v07/Rotatry Loop/stribeck Logoc Loop.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/SWAY HOME.vi b/WO 2476/v07/SWAY vi's/SWAY HOME.vi
+index c3baa39..a6bc93a 100644
+Binary files a/WO 2476/v07/SWAY vi's/SWAY HOME.vi and b/WO 2476/v07/SWAY vi's/SWAY HOME.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/SWAY READ FGV.vi b/WO 2476/v07/SWAY vi's/SWAY READ FGV.vi
+index 6d76015..00eabe0 100644
+Binary files a/WO 2476/v07/SWAY vi's/SWAY READ FGV.vi and b/WO 2476/v07/SWAY vi's/SWAY READ FGV.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/SWAY UNIFORM SPEED START.vi b/WO 2476/v07/SWAY vi's/SWAY UNIFORM SPEED START.vi
+index 264ce8c..06aa5d0 100644
+Binary files a/WO 2476/v07/SWAY vi's/SWAY UNIFORM SPEED START.vi and b/WO 2476/v07/SWAY vi's/SWAY UNIFORM SPEED START.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/SWAY UNIFORM SPEED STOP.vi b/WO 2476/v07/SWAY vi's/SWAY UNIFORM SPEED STOP.vi
+index 8c5a35b..c395863 100644
+Binary files a/WO 2476/v07/SWAY vi's/SWAY UNIFORM SPEED STOP.vi and b/WO 2476/v07/SWAY vi's/SWAY UNIFORM SPEED STOP.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/SWAY WRITE FGV.vi b/WO 2476/v07/SWAY vi's/SWAY WRITE FGV.vi
+index 974b48f..55c1c58 100644
+Binary files a/WO 2476/v07/SWAY vi's/SWAY WRITE FGV.vi and b/WO 2476/v07/SWAY vi's/SWAY WRITE FGV.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/Sway Home Module.vi b/WO 2476/v07/SWAY vi's/Sway Home Module.vi
+index e8804bc..e90e69f 100644
+Binary files a/WO 2476/v07/SWAY vi's/Sway Home Module.vi and b/WO 2476/v07/SWAY vi's/Sway Home Module.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/Sway Init.vi b/WO 2476/v07/SWAY vi's/Sway Init.vi
+index dc8a105..e4f19b0 100644
+Binary files a/WO 2476/v07/SWAY vi's/Sway Init.vi and b/WO 2476/v07/SWAY vi's/Sway Init.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/Sway Left MM.vi b/WO 2476/v07/SWAY vi's/Sway Left MM.vi
+index 93660be..48f8b90 100644
+Binary files a/WO 2476/v07/SWAY vi's/Sway Left MM.vi and b/WO 2476/v07/SWAY vi's/Sway Left MM.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/Sway Left Main.vi b/WO 2476/v07/SWAY vi's/Sway Left Main.vi
+index d5eb733..11a8b7e 100644
+Binary files a/WO 2476/v07/SWAY vi's/Sway Left Main.vi and b/WO 2476/v07/SWAY vi's/Sway Left Main.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/Sway Reinitize.vi b/WO 2476/v07/SWAY vi's/Sway Reinitize.vi
+index e6f858d..3a1444c 100644
+Binary files a/WO 2476/v07/SWAY vi's/Sway Reinitize.vi and b/WO 2476/v07/SWAY vi's/Sway Reinitize.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/Sway Right MM.vi b/WO 2476/v07/SWAY vi's/Sway Right MM.vi
+index bb2dc8c..d2417cb 100644
+Binary files a/WO 2476/v07/SWAY vi's/Sway Right MM.vi and b/WO 2476/v07/SWAY vi's/Sway Right MM.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/Sway Right Main.vi b/WO 2476/v07/SWAY vi's/Sway Right Main.vi
+index 6e6741f..e85fa8d 100644
+Binary files a/WO 2476/v07/SWAY vi's/Sway Right Main.vi and b/WO 2476/v07/SWAY vi's/Sway Right Main.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/Sway Stop.vi b/WO 2476/v07/SWAY vi's/Sway Stop.vi
+index cc8942b..f70f010 100644
+Binary files a/WO 2476/v07/SWAY vi's/Sway Stop.vi and b/WO 2476/v07/SWAY vi's/Sway Stop.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/Sway wear trac set.vi b/WO 2476/v07/SWAY vi's/Sway wear trac set.vi
+index 8739623..a6bc733 100644
+Binary files a/WO 2476/v07/SWAY vi's/Sway wear trac set.vi and b/WO 2476/v07/SWAY vi's/Sway wear trac set.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/Time Out Loop.vi b/WO 2476/v07/SWAY vi's/Time Out Loop.vi
+index 4c2e00b..00c1c33 100644
+Binary files a/WO 2476/v07/SWAY vi's/Time Out Loop.vi and b/WO 2476/v07/SWAY vi's/Time Out Loop.vi differ
+diff --git a/WO 2476/v07/Scratch Loop/Main Scratch Module.vi b/WO 2476/v07/Scratch Loop/Main Scratch Module.vi
+index 4a799e1..b82b904 100644
+Binary files a/WO 2476/v07/Scratch Loop/Main Scratch Module.vi and b/WO 2476/v07/Scratch Loop/Main Scratch Module.vi differ
+diff --git a/WO 2476/v07/Scratch Loop/Scratch Backward for forward.vi b/WO 2476/v07/Scratch Loop/Scratch Backward for forward.vi
+index 3c13b95..eb9b98a 100644
+Binary files a/WO 2476/v07/Scratch Loop/Scratch Backward for forward.vi and b/WO 2476/v07/Scratch Loop/Scratch Backward for forward.vi differ
+diff --git a/WO 2476/v07/Scratch Loop/Scratch Backward.vi b/WO 2476/v07/Scratch Loop/Scratch Backward.vi
+index aed1400..211e948 100644
+Binary files a/WO 2476/v07/Scratch Loop/Scratch Backward.vi and b/WO 2476/v07/Scratch Loop/Scratch Backward.vi differ
+diff --git a/WO 2476/v07/Scratch Loop/Scratch Forward.vi b/WO 2476/v07/Scratch Loop/Scratch Forward.vi
+index 26507ce..41e3233 100644
+Binary files a/WO 2476/v07/Scratch Loop/Scratch Forward.vi and b/WO 2476/v07/Scratch Loop/Scratch Forward.vi differ
+diff --git a/WO 2476/v07/Scratch Loop/Surge Forward in Scratch.vi b/WO 2476/v07/Scratch Loop/Surge Forward in Scratch.vi
+index 0b7acca..5017cbb 100644
+Binary files a/WO 2476/v07/Scratch Loop/Surge Forward in Scratch.vi and b/WO 2476/v07/Scratch Loop/Surge Forward in Scratch.vi differ
+diff --git a/WO 2476/v07/Surge vi's/Surge Backward MM.vi b/WO 2476/v07/Surge vi's/Surge Backward MM.vi
+index c6810a8..be62146 100644
+Binary files a/WO 2476/v07/Surge vi's/Surge Backward MM.vi and b/WO 2476/v07/Surge vi's/Surge Backward MM.vi differ
+diff --git a/WO 2476/v07/Surge vi's/Surge Backward Main.vi b/WO 2476/v07/Surge vi's/Surge Backward Main.vi
+index cc38617..ff56a9f 100644
+Binary files a/WO 2476/v07/Surge vi's/Surge Backward Main.vi and b/WO 2476/v07/Surge vi's/Surge Backward Main.vi differ
+diff --git a/WO 2476/v07/Surge vi's/Surge Forward MM.vi b/WO 2476/v07/Surge vi's/Surge Forward MM.vi
+index 9bb38a1..cd67a3d 100644
+Binary files a/WO 2476/v07/Surge vi's/Surge Forward MM.vi and b/WO 2476/v07/Surge vi's/Surge Forward MM.vi differ
+diff --git a/WO 2476/v07/Surge vi's/Surge Forward Main.vi b/WO 2476/v07/Surge vi's/Surge Forward Main.vi
+index daa3e09..ba57cca 100644
+Binary files a/WO 2476/v07/Surge vi's/Surge Forward Main.vi and b/WO 2476/v07/Surge vi's/Surge Forward Main.vi differ
+diff --git a/WO 2476/v07/Surge vi's/Surge Home Module.vi b/WO 2476/v07/Surge vi's/Surge Home Module.vi
+index 2deaa2f..270cfc7 100644
+Binary files a/WO 2476/v07/Surge vi's/Surge Home Module.vi and b/WO 2476/v07/Surge vi's/Surge Home Module.vi differ
+diff --git a/WO 2476/v07/Surge vi's/Surge Place Module.vi b/WO 2476/v07/Surge vi's/Surge Place Module.vi
+index ede4a3a..18d32a3 100644
+Binary files a/WO 2476/v07/Surge vi's/Surge Place Module.vi and b/WO 2476/v07/Surge vi's/Surge Place Module.vi differ
+diff --git a/WO 2476/v07/Timeout Loop/Pulse_mm conversion loop.vi b/WO 2476/v07/Timeout Loop/Pulse_mm conversion loop.vi
+index 3704dc6..76e11e2 100644
+Binary files a/WO 2476/v07/Timeout Loop/Pulse_mm conversion loop.vi and b/WO 2476/v07/Timeout Loop/Pulse_mm conversion loop.vi differ
+diff --git a/WO 2476/v07/Traction Loop/Main Traction Receipe Run.vi b/WO 2476/v07/Traction Loop/Main Traction Receipe Run.vi
+index 144fc1f..76abd1e 100644
+Binary files a/WO 2476/v07/Traction Loop/Main Traction Receipe Run.vi and b/WO 2476/v07/Traction Loop/Main Traction Receipe Run.vi differ
+diff --git a/WO 2476/v07/Traction Loop/Reciepe Ball Speed Write.vi b/WO 2476/v07/Traction Loop/Reciepe Ball Speed Write.vi
+index 052157e..53a01da 100644
+Binary files a/WO 2476/v07/Traction Loop/Reciepe Ball Speed Write.vi and b/WO 2476/v07/Traction Loop/Reciepe Ball Speed Write.vi differ
+diff --git a/WO 2476/v07/Traction Loop/Reciepe Disc Speed Write.vi b/WO 2476/v07/Traction Loop/Reciepe Disc Speed Write.vi
+index 79771ee..b22df0b 100644
+Binary files a/WO 2476/v07/Traction Loop/Reciepe Disc Speed Write.vi and b/WO 2476/v07/Traction Loop/Reciepe Disc Speed Write.vi differ
+diff --git a/WO 2476/v07/Traction Loop/TRACTION HOME.vi b/WO 2476/v07/Traction Loop/TRACTION HOME.vi
+index 19ba92c..1485680 100644
+Binary files a/WO 2476/v07/Traction Loop/TRACTION HOME.vi and b/WO 2476/v07/Traction Loop/TRACTION HOME.vi differ
+diff --git a/WO 2476/v07/Traction Loop/TRACTION READ FGV.vi b/WO 2476/v07/Traction Loop/TRACTION READ FGV.vi
+index b775f93..fb9ed95 100644
+Binary files a/WO 2476/v07/Traction Loop/TRACTION READ FGV.vi and b/WO 2476/v07/Traction Loop/TRACTION READ FGV.vi differ
+diff --git a/WO 2476/v07/Traction Loop/TRACTION WRITE FGV.vi b/WO 2476/v07/Traction Loop/TRACTION WRITE FGV.vi
+index 080455b..ad74a7e 100644
+Binary files a/WO 2476/v07/Traction Loop/TRACTION WRITE FGV.vi and b/WO 2476/v07/Traction Loop/TRACTION WRITE FGV.vi differ
+diff --git a/WO 2476/v07/Traction Loop/Test Stop Traction.vi b/WO 2476/v07/Traction Loop/Test Stop Traction.vi
+index ae4b834..37a7f68 100644
+Binary files a/WO 2476/v07/Traction Loop/Test Stop Traction.vi and b/WO 2476/v07/Traction Loop/Test Stop Traction.vi differ
+diff --git a/WO 2476/v07/Traction Loop/Traction  Init.vi b/WO 2476/v07/Traction Loop/Traction  Init.vi
+index 76f7019..9c82685 100644
+Binary files a/WO 2476/v07/Traction Loop/Traction  Init.vi and b/WO 2476/v07/Traction Loop/Traction  Init.vi differ
+diff --git a/WO 2476/v07/Traction Loop/Traction Receipe Main.vi b/WO 2476/v07/Traction Loop/Traction Receipe Main.vi
+index 340f608..7cee8cb 100644
+Binary files a/WO 2476/v07/Traction Loop/Traction Receipe Main.vi and b/WO 2476/v07/Traction Loop/Traction Receipe Main.vi differ
+diff --git a/WO 2476/v07/Traction Loop/Traction Reinitize.vi b/WO 2476/v07/Traction Loop/Traction Reinitize.vi
+index 688d8d3..70f4716 100644
+Binary files a/WO 2476/v07/Traction Loop/Traction Reinitize.vi and b/WO 2476/v07/Traction Loop/Traction Reinitize.vi differ
+diff --git a/WO 2476/v07/Traction Loop/Traction Time Calculation.vi b/WO 2476/v07/Traction Loop/Traction Time Calculation.vi
+new file mode 100644
+index 0000000..6293026
+Binary files /dev/null and b/WO 2476/v07/Traction Loop/Traction Time Calculation.vi differ
+diff --git a/WO 2476/v07/UNITEST MAIN v2.0.vi b/WO 2476/v07/UNITEST MAIN v2.0.vi
+index 13fe9cf..b4ee471 100644
+Binary files a/WO 2476/v07/UNITEST MAIN v2.0.vi and b/WO 2476/v07/UNITEST MAIN v2.0.vi differ
+
+
