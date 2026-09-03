@@ -26756,3 +26756,243 @@ index 13fe9cf..b4ee471 100644
 Binary files a/WO 2476/v07/UNITEST MAIN v2.0.vi and b/WO 2476/v07/UNITEST MAIN v2.0.vi differ
 
 
+=================================
+🕒 Timestamp: 2026-09-03 10:35:01 +0530
+💬 Comment: ADDED TRACTION RECEIPE AND RESOLVED BUGS IN SCRATCH
+---------------------------------
+📁 Files Changed:
+WO 2476/v07/Configuraton Files/Read Config Unitest.vi
+WO 2476/v07/Configuraton Files/Write Config Unitest.vi
+WO 2476/v07/HEAVE vi's/HEAVE READ FGV.vi
+WO 2476/v07/HEAVE vi's/JOG LIMIT.vi
+WO 2476/v07/Main Screen vi's/MOTION MODULE SELECTION.vi
+WO 2476/v07/Main Screen vi's/MOTION MODULE STAGE ENABLE AND DISABLE.vi
+WO 2476/v07/Main Screen vi's/Test Start Sequence.vi
+WO 2476/v07/Monitor Loop/Main Monitor Loop.vi
+WO 2476/v07/Monitor Loop/Rotary and Traction Motor Command Send.vi
+WO 2476/v07/Monitor Loop/Trip Log and Trip Monitor.vi
+WO 2476/v07/SWAY vi's/SWAY READ FGV.vi
+WO 2476/v07/SWAY vi's/Time Out Loop.vi
+WO 2476/v07/Traction Loop/Main Traction Receipe Run.vi
+WO 2476/v07/UNITEST MAIN v2.0.vi
+WO 2476/v07/data/DCZX_(1)/DCZX_(1).ini
+WO 2476/v07/data/Edfsxc/Edfsxc.ini
+WO 2476/v07/data/RFEDS_(1)/RFEDS_(1).ini
+WO 2476/v07/data/adszx_(1)/adszx_(1).ini
+WO 2476/v07/data/dzxc/dzxc.ini
+WO 2476/v07/data/efazxc_(1)/efazxc_(1).ini
+WO 2476/v07/data/ewsd_(1)/ewsd_(1).ini
+WO 2476/v07/data/test001_(1)/test001_(1).ini
+WO 2476/v07/data/test001_(2)/test001_(2).ini
+WO 2476/v07/v07_Config.ini
+---------------------------------
+📝 Actual Changes Made:
+diff --git a/WO 2476/v07/Configuraton Files/Read Config Unitest.vi b/WO 2476/v07/Configuraton Files/Read Config Unitest.vi
+index 873f1b9..ceb3566 100644
+Binary files a/WO 2476/v07/Configuraton Files/Read Config Unitest.vi and b/WO 2476/v07/Configuraton Files/Read Config Unitest.vi differ
+diff --git a/WO 2476/v07/Configuraton Files/Write Config Unitest.vi b/WO 2476/v07/Configuraton Files/Write Config Unitest.vi
+index d03140e..affda90 100644
+Binary files a/WO 2476/v07/Configuraton Files/Write Config Unitest.vi and b/WO 2476/v07/Configuraton Files/Write Config Unitest.vi differ
+diff --git a/WO 2476/v07/HEAVE vi's/HEAVE READ FGV.vi b/WO 2476/v07/HEAVE vi's/HEAVE READ FGV.vi
+index e03446a..636eca8 100644
+Binary files a/WO 2476/v07/HEAVE vi's/HEAVE READ FGV.vi and b/WO 2476/v07/HEAVE vi's/HEAVE READ FGV.vi differ
+diff --git a/WO 2476/v07/HEAVE vi's/JOG LIMIT.vi b/WO 2476/v07/HEAVE vi's/JOG LIMIT.vi
+index ab76808..87ef426 100644
+Binary files a/WO 2476/v07/HEAVE vi's/JOG LIMIT.vi and b/WO 2476/v07/HEAVE vi's/JOG LIMIT.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/MOTION MODULE SELECTION.vi b/WO 2476/v07/Main Screen vi's/MOTION MODULE SELECTION.vi
+new file mode 100644
+index 0000000..92c98fe
+Binary files /dev/null and b/WO 2476/v07/Main Screen vi's/MOTION MODULE SELECTION.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/MOTION MODULE STAGE ENABLE AND DISABLE.vi b/WO 2476/v07/Main Screen vi's/MOTION MODULE STAGE ENABLE AND DISABLE.vi
+new file mode 100644
+index 0000000..44d534a
+Binary files /dev/null and b/WO 2476/v07/Main Screen vi's/MOTION MODULE STAGE ENABLE AND DISABLE.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Test Start Sequence.vi b/WO 2476/v07/Main Screen vi's/Test Start Sequence.vi
+index 87840e0..e17c9c2 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Test Start Sequence.vi and b/WO 2476/v07/Main Screen vi's/Test Start Sequence.vi differ
+diff --git a/WO 2476/v07/Monitor Loop/Main Monitor Loop.vi b/WO 2476/v07/Monitor Loop/Main Monitor Loop.vi
+index 61634bb..72146b1 100644
+Binary files a/WO 2476/v07/Monitor Loop/Main Monitor Loop.vi and b/WO 2476/v07/Monitor Loop/Main Monitor Loop.vi differ
+diff --git a/WO 2476/v07/Monitor Loop/Rotary and Traction Motor Command Send.vi b/WO 2476/v07/Monitor Loop/Rotary and Traction Motor Command Send.vi
+index 8fcb77c..50803fd 100644
+Binary files a/WO 2476/v07/Monitor Loop/Rotary and Traction Motor Command Send.vi and b/WO 2476/v07/Monitor Loop/Rotary and Traction Motor Command Send.vi differ
+diff --git a/WO 2476/v07/Monitor Loop/Trip Log and Trip Monitor.vi b/WO 2476/v07/Monitor Loop/Trip Log and Trip Monitor.vi
+index 7f9ee03..39328b7 100644
+Binary files a/WO 2476/v07/Monitor Loop/Trip Log and Trip Monitor.vi and b/WO 2476/v07/Monitor Loop/Trip Log and Trip Monitor.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/SWAY READ FGV.vi b/WO 2476/v07/SWAY vi's/SWAY READ FGV.vi
+index 00eabe0..a1bf8c1 100644
+Binary files a/WO 2476/v07/SWAY vi's/SWAY READ FGV.vi and b/WO 2476/v07/SWAY vi's/SWAY READ FGV.vi differ
+diff --git a/WO 2476/v07/SWAY vi's/Time Out Loop.vi b/WO 2476/v07/SWAY vi's/Time Out Loop.vi
+index 00c1c33..cfd5be6 100644
+Binary files a/WO 2476/v07/SWAY vi's/Time Out Loop.vi and b/WO 2476/v07/SWAY vi's/Time Out Loop.vi differ
+diff --git a/WO 2476/v07/Traction Loop/Main Traction Receipe Run.vi b/WO 2476/v07/Traction Loop/Main Traction Receipe Run.vi
+index 76abd1e..98115c0 100644
+Binary files a/WO 2476/v07/Traction Loop/Main Traction Receipe Run.vi and b/WO 2476/v07/Traction Loop/Main Traction Receipe Run.vi differ
+diff --git a/WO 2476/v07/UNITEST MAIN v2.0.vi b/WO 2476/v07/UNITEST MAIN v2.0.vi
+index b4ee471..2c27b13 100644
+Binary files a/WO 2476/v07/UNITEST MAIN v2.0.vi and b/WO 2476/v07/UNITEST MAIN v2.0.vi differ
+diff --git a/WO 2476/v07/data/DCZX_(1)/DCZX_(1).ini b/WO 2476/v07/data/DCZX_(1)/DCZX_(1).ini
+new file mode 100644
+index 0000000..8c5d507
+--- /dev/null
++++ b/WO 2476/v07/data/DCZX_(1)/DCZX_(1).ini	
+@@ -0,0 +1,7 @@
++[Test Details]
++File Name = "DCZX "
++Sample ID = "DCX "
++Time Stamp = "06:20:45:PM 02:September:2026"
++Notes = "DCX "
++Operator Name = "CDX "
++Operator ID = ""
+\ No newline at end of file
+diff --git a/WO 2476/v07/data/Edfsxc/Edfsxc.ini b/WO 2476/v07/data/Edfsxc/Edfsxc.ini
+new file mode 100644
+index 0000000..f9dfc74
+--- /dev/null
++++ b/WO 2476/v07/data/Edfsxc/Edfsxc.ini	
+@@ -0,0 +1,7 @@
++[Test Details]
++File Name = "Edfsxc"
++Sample ID = ""
++Time Stamp = "07:24:52:PM 02:September:2026"
++Notes = ""
++Operator Name = "svfcx"
++Operator ID = ""
+\ No newline at end of file
+diff --git a/WO 2476/v07/data/RFEDS_(1)/RFEDS_(1).ini b/WO 2476/v07/data/RFEDS_(1)/RFEDS_(1).ini
+new file mode 100644
+index 0000000..af1d72c
+--- /dev/null
++++ b/WO 2476/v07/data/RFEDS_(1)/RFEDS_(1).ini	
+@@ -0,0 +1,7 @@
++[Test Details]
++File Name = "RFEDS"
++Sample ID = "FSDC"
++Time Stamp = "06:23:05:PM 02:September:2026"
++Notes = "SDFC"
++Operator Name = "FDSXC"
++Operator ID = ""
+\ No newline at end of file
+diff --git a/WO 2476/v07/data/adszx_(1)/adszx_(1).ini b/WO 2476/v07/data/adszx_(1)/adszx_(1).ini
+new file mode 100644
+index 0000000..96fb161
+--- /dev/null
++++ b/WO 2476/v07/data/adszx_(1)/adszx_(1).ini	
+@@ -0,0 +1,7 @@
++[Test Details]
++File Name = "adszx"
++Sample ID = ""
++Time Stamp = "07:32:00:PM 02:September:2026"
++Notes = ""
++Operator Name = "asZX"
++Operator ID = ""
+\ No newline at end of file
+diff --git a/WO 2476/v07/data/dzxc/dzxc.ini b/WO 2476/v07/data/dzxc/dzxc.ini
+new file mode 100644
+index 0000000..21fe001
+--- /dev/null
++++ b/WO 2476/v07/data/dzxc/dzxc.ini	
+@@ -0,0 +1,7 @@
++[Test Details]
++File Name = "dzxc"
++Sample ID = ""
++Time Stamp = "07:27:40:PM 02:September:2026"
++Notes = ""
++Operator Name = "dsvc"
++Operator ID = ""
+\ No newline at end of file
+diff --git a/WO 2476/v07/data/efazxc_(1)/efazxc_(1).ini b/WO 2476/v07/data/efazxc_(1)/efazxc_(1).ini
+new file mode 100644
+index 0000000..377e60f
+--- /dev/null
++++ b/WO 2476/v07/data/efazxc_(1)/efazxc_(1).ini	
+@@ -0,0 +1,7 @@
++[Test Details]
++File Name = "efazxc"
++Sample ID = ""
++Time Stamp = "07:34:52:PM 02:September:2026"
++Notes = ""
++Operator Name = "dazxc"
++Operator ID = ""
+\ No newline at end of file
+diff --git a/WO 2476/v07/data/ewsd_(1)/ewsd_(1).ini b/WO 2476/v07/data/ewsd_(1)/ewsd_(1).ini
+new file mode 100644
+index 0000000..185675e
+--- /dev/null
++++ b/WO 2476/v07/data/ewsd_(1)/ewsd_(1).ini	
+@@ -0,0 +1,7 @@
++[Test Details]
++File Name = "ewsd"
++Sample ID = ""
++Time Stamp = "07:29:19:PM 02:September:2026"
++Notes = ""
++Operator Name = "fswd"
++Operator ID = ""
+\ No newline at end of file
+diff --git a/WO 2476/v07/data/test001_(1)/test001_(1).ini b/WO 2476/v07/data/test001_(1)/test001_(1).ini
+new file mode 100644
+index 0000000..0090ed1
+--- /dev/null
++++ b/WO 2476/v07/data/test001_(1)/test001_(1).ini	
+@@ -0,0 +1,7 @@
++[Test Details]
++File Name = "test001"
++Sample ID = ""
++Time Stamp = "08:04:29:PM 02:September:2026"
++Notes = ""
++Operator Name = "ygu"
++Operator ID = ""
+\ No newline at end of file
+diff --git a/WO 2476/v07/data/test001_(2)/test001_(2).ini b/WO 2476/v07/data/test001_(2)/test001_(2).ini
+new file mode 100644
+index 0000000..be8834c
+--- /dev/null
++++ b/WO 2476/v07/data/test001_(2)/test001_(2).ini	
+@@ -0,0 +1,7 @@
++[Test Details]
++File Name = "test001_(1)"
++Sample ID = ""
++Time Stamp = "08:05:25:PM 02:September:2026"
++Notes = ""
++Operator Name = "ygu"
++Operator ID = ""
+\ No newline at end of file
+diff --git a/WO 2476/v07/v07_Config.ini b/WO 2476/v07/v07_Config.ini
+index 3c77eb0..2122374 100644
+--- a/WO 2476/v07/v07_Config.ini	
++++ b/WO 2476/v07/v07_Config.ini	
+@@ -42,12 +42,30 @@
+ 83A119A97A121A32A80A105A100A32A83A112A101A101A100A = "49A55A48A48A48A48A48A48A46A48A48A48A48A48A"
+ 83A119A97A121A32A74A111A103A32A83A112A101A101A100A = "49A55A48A48A48A46A48A48A48A48A48A"
+ 74A79A71A32A84A82A73A80A32A76A79A65A68A32A86A65A76A85A69A32A40A78A41A = "48A46A48A48A48A48A48A"
++68A101A112A116A104A32A84A114A105A112A32A86A97A108A117A101A = "48A46A48A48A48A48A48A"
++76A111A97A100A32A84A114A105A112A32A86A97A108A117A101A = "48A46A48A48A48A48A48A"
++68A101A112A116A104A32A84A114A105A112A32A69A110A97A98A108A101A = "48A46A48A48A48A48A48A"
++67A121A99A108A105A99A32A70A70A32A84A114A105A112A32A86A97A108A117A101A = "48A46A48A48A48A48A48A"
++70A70A32A84A114A105A112A32A86A97A108A117A101A = "48A46A48A48A48A48A48A"
++67A121A99A108A105A99A32A67A111A102A32A84A114A105A112A32A86A97A108A117A101A = "48A46A48A48A48A48A48A"
++67A121A99A108A105A99A32A70A70A32A84A114A105A112A32A69A110A97A98A108A101A = "48A46A48A48A48A48A48A"
++70A70A32A84A114A105A112A32A69A110A97A98A108A101A = "48A46A48A48A48A48A48A"
++67A111A102A32A84A114A105A112A32A69A110A97A98A108A101A = "48A46A48A48A48A48A48A"
++76A111A97A100A32A84A114A105A112A32A69A110A97A98A108A101A = "48A46A48A48A48A48A48A"
++67A121A99A108A105A99A32A67A111A102A32A84A114A105A112A32A69A110A97A98A108A101A = "48A46A48A48A48A48A48A"
++67A79A70A32A84A82A73A80A32A86A65A76A85A69A = "48A46A48A48A48A48A48A"
++82A79A84A65A82A89A32A86A69A82A84A73A67A65A76A = "49A46A48A48A48A48A48A"
++84A82A65A67A84A73A79A78A = "49A46A48A48A48A48A48A"
++83A67A82A65A84A67A72A = "49A46A48A48A48A48A48A"
++76A82A77A32A67A65A77A = "48A46A48A48A48A48A48A"
++83A87A65A89A32A76A82A77A = "48A46A48A48A48A48A48A"
++82A79A84A65A82A89A32A72A79A82A73A90A79A78A84A65A76A = "48A46A48A48A48A48A48A"
+ 
+ [67A79A77A32A80A79A82A84A]
+ 72A85A77A73A68A73A84A89A32A80A79A82A84A = "72A85A77A73A68A73A84A89A32A80A79A82A84A"
+ 84A69A77A80A32A77A79A68A66A85A83A = "84A69A77A80A32A77A79A68A66A85A83A"
+-72A69A65A86A69A32A65A78A68A32A83A85A82A71A69A32A67A79A77A32A80A79A82A84A = "72A69A65A86A69A32A65A78A68A32A83A85A82A71A69A32A67A79A77A32A80A79A82A84A"
+-83A87A65A89A32A67A79A77A32A80A79A82A84A = "83A87A65A89A32A67A79A77A32A80A79A82A84A"
++72A69A65A86A69A32A65A78A68A32A83A85A82A71A69A32A67A79A77A32A80A79A82A84A = ""
++83A87A65A89A32A67A79A77A32A80A79A82A84A = ""
+ 82A65A77A80A32A80A79A82A84A = "82A65A77A80A32A80A79A82A84A"
+ 69A67A82A32A80A79A82A84A = "69A67A82A32A80A79A82A84A"
+ 
+
+
