@@ -27642,3 +27642,24 @@ index 2122374..e081267 100644
 \ No newline at end of file
 
 
+=================================
+🕒 Timestamp: 2026-09-16 10:35:47 +0530
+💬 Comment: Load Cell Measurment Logic Changed
+---------------------------------
+📁 Files Changed:
+WO 2476/v07/LOAD CELL CODE/LOAD CELL READ.vi
+WO 2476/v07/Main Screen vi's/Load Trip During Jog.vi
+WO 2476/v07/UNITEST MAIN v2.0.vi
+---------------------------------
+📝 Actual Changes Made:
+diff --git a/WO 2476/v07/LOAD CELL CODE/LOAD CELL READ.vi b/WO 2476/v07/LOAD CELL CODE/LOAD CELL READ.vi
+index fac6225..42106ad 100644
+Binary files a/WO 2476/v07/LOAD CELL CODE/LOAD CELL READ.vi and b/WO 2476/v07/LOAD CELL CODE/LOAD CELL READ.vi differ
+diff --git a/WO 2476/v07/Main Screen vi's/Load Trip During Jog.vi b/WO 2476/v07/Main Screen vi's/Load Trip During Jog.vi
+index ed25cda..91f1b57 100644
+Binary files a/WO 2476/v07/Main Screen vi's/Load Trip During Jog.vi and b/WO 2476/v07/Main Screen vi's/Load Trip During Jog.vi differ
+diff --git a/WO 2476/v07/UNITEST MAIN v2.0.vi b/WO 2476/v07/UNITEST MAIN v2.0.vi
+index 9806cc1..d77ef1b 100644
+Binary files a/WO 2476/v07/UNITEST MAIN v2.0.vi and b/WO 2476/v07/UNITEST MAIN v2.0.vi differ
+
+
